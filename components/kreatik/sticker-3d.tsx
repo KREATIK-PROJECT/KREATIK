@@ -7,7 +7,8 @@ import type { MouseEvent } from 'react'
 export function StickerCard3D({
   src,
   alt,
-  maxTilt = 12,
+  maxTilt = 16,
+  maxShift = 10,
   shadowStrength = 1,
   className = '',
   imgClassName = '',
@@ -17,6 +18,7 @@ export function StickerCard3D({
   src: string
   alt: string
   maxTilt?: number
+  maxShift?: number
   shadowStrength?: number
   className?: string
   imgClassName?: string
@@ -24,7 +26,7 @@ export function StickerCard3D({
   priority?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 })
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, sx: 0, sy: 0 })
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 })
   const [hovering, setHovering] = useState(false)
 
@@ -33,12 +35,12 @@ export function StickerCard3D({
     const rect = ref.current.getBoundingClientRect()
     const px = (e.clientX - rect.left) / rect.width
     const py = (e.clientY - rect.top) / rect.height
-    setTilt({ rx: (0.5 - py) * maxTilt, ry: (px - 0.5) * maxTilt })
+    setTilt({ rx: (0.5 - py) * maxTilt, ry: (px - 0.5) * maxTilt, sx: (px - 0.5) * maxShift, sy: (py - 0.5) * maxShift })
     setGlare({ x: px * 100, y: py * 100, opacity: 0.5 })
   }
 
   const reset = () => {
-    setTilt({ rx: 0, ry: 0 })
+    setTilt({ rx: 0, ry: 0, sx: 0, sy: 0 })
     setGlare((g) => ({ ...g, opacity: 0 }))
     setHovering(false)
   }
@@ -46,8 +48,12 @@ export function StickerCard3D({
   const shadowX = -tilt.ry * 1.2 * shadowStrength
   const shadowY = 10 + tilt.rx * 1.2 * shadowStrength
 
+  // NOTE: `className` (passé par l'appelant) porte déjà la classe de position
+  // (absolute/inset-*). On ne force plus "relative" dessus pour éviter un
+  // conflit de classes Tailwind sur `position` qui empêchait la zone de
+  // survol d'avoir la bonne taille — c'était le bug de l'effet invisible.
   return (
-    <div className={`relative ${className}`} style={{ perspective: 900 }}>
+    <div className={className} style={{ perspective: 900 }}>
       <div
         ref={ref}
         onMouseMove={handleMove}
@@ -56,9 +62,10 @@ export function StickerCard3D({
         className="relative h-full w-full motion-reduce:!transform-none"
         style={{
           transformStyle: 'preserve-3d',
-          transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hovering ? 1.06 : 1})`,
+          transform: `translate(${tilt.sx}px, ${tilt.sy}px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${hovering ? 1.08 : 1})`,
           transition: hovering ? 'transform 0.08s linear' : 'transform 0.5s cubic-bezier(.22,.9,.32,1)',
           filter: `drop-shadow(${shadowX}px ${shadowY}px ${18 * shadowStrength}px rgba(0,0,0,.45))`,
+          willChange: 'transform',
         }}
       >
         <Image src={src} alt={alt} fill priority={priority} sizes={sizes} className={`object-contain ${imgClassName}`} />
