@@ -17,10 +17,10 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-rotate-12', position: 'left-[6%] top-[18%]' },
-  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: 'rotate-6', position: 'right-[5%] top-[15%]' },
-  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: 'rotate-12', position: 'left-[10%] bottom-[19%]' },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-rotate-6', position: 'right-[10%] bottom-[17%]' },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-rotate-6', position: 'left-[2%] top-[4%]', size: 'w-32 md:w-44' },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: 'rotate-3', position: 'right-[4%] top-[10%]', size: 'w-24 md:w-36' },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: '-rotate-3', position: 'left-[8%] bottom-[6%]', size: 'w-28 md:w-40' },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: 'rotate-6', position: 'right-[2%] bottom-[2%]', size: 'w-32 md:w-48' },
 ]
 
 export function SiteHeader() {
@@ -50,17 +50,18 @@ export function HeroDrop() {
   return (
     <section id="top" className="relative min-h-[720px] overflow-hidden bg-[#12141C] px-5 py-20 md:min-h-[780px] md:px-10 md:py-24">
       <div className="pointer-events-none absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
-        <div className="max-w-xl animate-appear-up">
+      <div className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="max-w-lg animate-appear-up">
           <div className="mb-6 flex items-center gap-3 font-montserrat text-[10px] font-bold tracking-[0.22em] text-[#F77F4A]"><span className="h-px w-10 bg-[#F77F4A]" /> DROP 001 / LA RÉUNION</div>
-          <h1 className="font-author text-[clamp(4.8rem,12vw,10rem)] leading-[.78] tracking-[-0.08em] text-[#F3ECE0]">DISCOVER.<br /><span className="italic text-[#F77F4A]">CREATE.</span><br />COLLECT<span className="text-[#C8336A]">.</span></h1>
-          <p className="mt-9 max-w-sm font-montserrat text-sm leading-6 text-white/60">Le sticker comme objet artistique. Des éditions limitées, imaginées par des artistes, fabriquées en France.</p>
-          <div className="mt-9 flex flex-wrap gap-3"><a href="#shop" className="group flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C] transition-transform hover:-translate-y-1">EXPLORE STICKERS <ArrowUpRight size={16} /></a><a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-colors hover:border-[#F77F4A] hover:text-[#F77F4A]">CREATE YOUR STICKER</a></div>
+          <p className="font-montserrat text-xs font-bold tracking-[0.3em] text-white/50">COLLECTION</p>
+          <h1 className="font-author text-[clamp(6rem,15vw,13rem)] italic leading-[.75] tracking-[-0.05em] text-[#F3ECE0]">974</h1>
+          <p className="font-author text-2xl italic tracking-[-0.02em] text-[#F77F4A] md:text-3xl">Jusqu&apos;au bout.</p>
+          <p className="mt-7 max-w-sm font-montserrat text-sm leading-6 text-white/60">Le sticker comme objet artistique. Des éditions limitées, imaginées par des artistes, fabriquées en France.</p>
+          <div className="mt-9 flex flex-wrap gap-3"><a href="#shop" className="group flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C] transition-transform hover:-translate-y-1">EXPLORER LA COLLECTION <ArrowUpRight size={16} /></a><a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-colors hover:border-[#F77F4A] hover:text-[#F77F4A]">CREATE YOUR STICKER</a></div>
+          <div className="mt-12 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/40">MADE IN FRANCE / 974</div>
         </div>
-        <div className="relative mx-auto aspect-square w-full max-w-[660px] animate-scale-in">
-          <div className="absolute inset-[12%] overflow-hidden rounded-[48%_52%_45%_55%] bg-[#171717]"><Image src="/kreatik/reunion-collage.png" alt="Collection 974, stickers inspirés de La Réunion" fill priority className="object-cover" sizes="(max-width: 1024px) 90vw, 55vw" /></div>
-          {stickers.map((sticker, i) => <div key={sticker.label} className={`absolute ${sticker.position} ${sticker.rotate} animate-float-${i % 2 ? 'slow' : ''} z-10 aspect-square w-24 drop-shadow-[8px_12px_10px_rgba(0,0,0,.45)] md:w-36`}><Image src={sticker.src} alt={sticker.label} fill className="object-contain" sizes="150px" /></div>)}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/50">MADE IN FRANCE / 974</div>
+        <div className="relative mx-auto h-[420px] w-full max-w-[720px] animate-scale-in md:h-[560px]">
+          {stickers.map((sticker, i) => <div key={sticker.label} className={`absolute ${sticker.position} ${sticker.rotate} ${sticker.size} animate-float-${i % 2 ? 'slow' : ''} drop-shadow-[10px_16px_14px_rgba(0,0,0,.5)]`}><Image src={sticker.src} alt={sticker.label} width={400} height={400} className="h-auto w-full object-contain" /></div>)}
         </div>
       </div>
       <div className="absolute bottom-7 left-5 font-montserrat text-[9px] tracking-[0.18em] text-white/30 md:left-10">SCROLL TO EXPLORE ↓</div>
