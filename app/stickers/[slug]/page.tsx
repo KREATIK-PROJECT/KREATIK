@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Heart } from 'lucide-react'
 import { getActiveStickers, getSticker, getArtist, getStickersByArtist } from '@/lib/kreatik-data'
-import { SiteHeader, Footer } from '@/components/kreatik/site-shell'
+import { SiteHeader, Footer, DropBadge } from '@/components/kreatik/site-shell'
 import { StickerCard3D } from '@/components/kreatik/sticker-3d'
 
 export function generateStaticParams() {
@@ -15,18 +15,19 @@ export default async function StickerPage({ params }: { params: Promise<{ slug: 
   if (!sticker) return notFound()
   const artist = getArtist(sticker.artistSlug)
   const more = getStickersByArtist(sticker.artistSlug).filter((s) => s.slug !== sticker.slug)
+  const backHref = sticker.isDrop ? '/drops' : '/boutique'
 
   return (
     <>
       <SiteHeader />
       <main className="bg-[#F3ECE0] px-5 py-16 text-[#12141C] md:px-10 md:py-24">
         <div className="mx-auto max-w-[1100px]">
-          <Link href="/#shop" className="inline-flex items-center gap-2 font-montserrat text-[11px] font-bold tracking-[0.14em] text-black/50 transition-colors hover:text-[#C8336A]"><ArrowLeft size={14} /> RETOUR À LA BOUTIQUE</Link>
+          <Link href={backHref} className="inline-flex items-center gap-2 font-montserrat text-[11px] font-bold tracking-[0.14em] text-black/50 transition-colors hover:text-[#C8336A]"><ArrowLeft size={14} /> {sticker.isDrop ? 'RETOUR AU DROP' : 'RETOUR À LA BOUTIQUE'}</Link>
 
           <div className="mt-8 grid gap-14 md:grid-cols-2 md:items-start">
-            <div className="relative aspect-square overflow-hidden bg-[#171717]">
+            <div className="relative flex aspect-square items-center justify-center">
               <StickerCard3D src={sticker.image} alt={sticker.name} className="absolute inset-10" sizes="500px" priority maxTilt={14} shadowStrength={1.3} />
-              <span className="absolute left-4 top-4 z-10 bg-[#12141C] px-3 py-1.5 font-montserrat text-[9px] font-bold tracking-[0.1em] text-[#F9CAB2]">{sticker.tag.toUpperCase()}</span>
+              <DropBadge sticker={sticker} className="absolute left-0 top-0 z-10" />
             </div>
 
             <div>
@@ -51,7 +52,7 @@ export default async function StickerPage({ params }: { params: Promise<{ slug: 
                   <p className="font-montserrat text-[10px] font-bold tracking-[0.18em] text-black/40">PLUS DE CET ARTISTE</p>
                   <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
                     {more.map((m) => (
-                      <Link key={m.slug} href={`/stickers/${m.slug}`} className="relative aspect-square w-24 flex-shrink-0 overflow-hidden bg-[#171717]">
+                      <Link key={m.slug} href={`/stickers/${m.slug}`} className="relative flex aspect-square w-24 flex-shrink-0 items-center justify-center">
                         <StickerCard3D src={m.image} alt={m.name} className="absolute inset-2" sizes="100px" maxTilt={8} shadowStrength={0.6} />
                       </Link>
                     ))}

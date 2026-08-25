@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { ExternalLink, Music2, ArrowLeft } from 'lucide-react'
 import { getActiveArtists, getArtist, getStickersByArtist } from '@/lib/kreatik-data'
 import { StickerCard3D } from '@/components/kreatik/sticker-3d'
-import { SiteHeader, Footer } from '@/components/kreatik/site-shell'
+import { SiteHeader, Footer, DropBadge } from '@/components/kreatik/site-shell'
 
 export function generateStaticParams() {
   return getActiveArtists().map((a) => ({ slug: a.slug }))
@@ -44,8 +44,9 @@ export default async function ArtistPage({ params }: { params: Promise<{ slug: s
             <div className="mt-6 grid grid-cols-2 gap-5 md:grid-cols-4">
               {items.map((item) => (
                 <Link key={item.slug} href={`/stickers/${item.slug}`} className="group block">
-                  <div className="relative aspect-square overflow-hidden bg-[#171717]">
+                  <div className="relative flex aspect-square items-center justify-center">
                     <StickerCard3D src={item.image} alt={item.name} className="absolute inset-4" sizes="240px" />
+                    <DropBadge sticker={item} className="absolute left-0 top-0 z-10 !text-[8px]" />
                   </div>
                   <p className="mt-3 font-montserrat text-xs font-bold">{item.name}</p>
                   <p className="font-montserrat text-[11px] text-black/50">{item.price}</p>

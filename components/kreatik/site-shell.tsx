@@ -2,10 +2,11 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, Sparkles, X } from 'lucide-react'
 import Lenis from 'lenis'
 import { useEffect, useState } from 'react'
-import { getActiveArtists, getActiveStickers } from '@/lib/kreatik-data'
+import { getActiveArtists, getActiveStickers, getBoutiqueStickers, getDropStickers, type StickerItem } from '@/lib/kreatik-data'
 
 function SmoothScroll() {
   useEffect(() => {
@@ -38,19 +39,26 @@ const heroLines = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isActive = (href: string) => pathname === href
+  const contextLabel = pathname === '/boutique' ? 'BOUTIQUE — Collection permanente' : pathname === '/drops' ? 'DROPS — Éditions limitées' : null
+
   return (
     <header className="relative z-50 border-b border-white/10 bg-[#12141C]/95 px-5 py-5 backdrop-blur-md md:px-10">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
-        <a href="#top" className="font-author text-3xl italic tracking-[-0.08em] text-[#F3ECE0]" aria-label="Kreatik accueil">
-          KREATIK<span className="text-[#F77F4A]">.</span>
-        </a>
+        <div className="flex items-baseline gap-4">
+          <Link href="/" className="font-author text-3xl italic tracking-[-0.08em] text-[#F3ECE0]" aria-label="Kreatik accueil">
+            KREATIK<span className="text-[#F77F4A]">.</span>
+          </Link>
+          {contextLabel && <span className="hidden font-montserrat text-[9px] font-bold tracking-[0.16em] text-white/40 md:inline">{contextLabel}</span>}
+        </div>
         <nav className="hidden items-center gap-8 font-montserrat text-[10px] font-bold tracking-[0.16em] text-white/70 md:flex" aria-label="Navigation principale">
-          <a className="transition-colors hover:text-[#F77F4A]" href="#shop">BOUTIQUE</a>
-          <a className="transition-colors hover:text-[#F77F4A]" href="#artists">ARTISTES</a>
-          <a className="transition-colors hover:text-[#F77F4A]" href="#collections">COLLECTIONS</a>
-          <Link className="transition-colors hover:text-[#F77F4A]" href="/atelier">ATELIER</Link>
-          <a className="transition-colors hover:text-[#F77F4A]" href="#drops">DROPS</a>
-          <a className="transition-colors hover:text-[#F77F4A]" href="#fondateur">FONDATEUR</a>
+          <Link className={`transition-colors hover:text-[#F77F4A] ${isActive('/boutique') ? 'text-[#F77F4A]' : ''}`} href="/boutique">BOUTIQUE</Link>
+          <a className="transition-colors hover:text-[#F77F4A]" href="/#artists">ARTISTES</a>
+          <a className="transition-colors hover:text-[#F77F4A]" href="/#collections">COLLECTIONS</a>
+          <Link className={`transition-colors hover:text-[#F77F4A] ${isActive('/atelier') ? 'text-[#F77F4A]' : ''}`} href="/atelier">ATELIER</Link>
+          <Link className={`transition-colors hover:text-[#F77F4A] ${isActive('/drops') ? 'text-[#F77F4A]' : ''}`} href="/drops">DROPS</Link>
+          <a className="transition-colors hover:text-[#F77F4A]" href="/#fondateur">FONDATEUR</a>
         </nav>
         <div className="flex items-center gap-2 text-white/80">
           <button className="hidden p-2 transition-colors hover:text-[#F77F4A] md:block" aria-label="Rechercher"><Search size={18} strokeWidth={1.5} /></button>
@@ -60,16 +68,17 @@ export function SiteHeader() {
         </div>
       </div>
       {menuOpen && <nav className="mt-5 flex flex-col gap-5 border-t border-white/10 pt-5 font-montserrat text-xs font-bold tracking-[0.18em] text-white/80 md:hidden">
-        <a href="#shop" onClick={() => setMenuOpen(false)}>BOUTIQUE</a>
-        <a href="#artists" onClick={() => setMenuOpen(false)}>ARTISTES</a>
-        <a href="#collections" onClick={() => setMenuOpen(false)}>COLLECTIONS</a>
+        <Link href="/boutique" onClick={() => setMenuOpen(false)}>BOUTIQUE</Link>
+        <a href="/#artists" onClick={() => setMenuOpen(false)}>ARTISTES</a>
+        <a href="/#collections" onClick={() => setMenuOpen(false)}>COLLECTIONS</a>
         <Link href="/atelier" onClick={() => setMenuOpen(false)}>ATELIER</Link>
-        <a href="#drops" onClick={() => setMenuOpen(false)}>DROPS</a>
-        <a href="#fondateur" onClick={() => setMenuOpen(false)}>FONDATEUR</a>
+        <Link href="/drops" onClick={() => setMenuOpen(false)}>DROPS</Link>
+        <a href="/#fondateur" onClick={() => setMenuOpen(false)}>FONDATEUR</a>
       </nav>}
     </header>
   )
 }
+
 
 export function HeroDrop() {
   return (
@@ -128,14 +137,19 @@ export const sampleStickers = getActiveStickers()
 
 import { StickerCard3D } from './sticker-3d'
 
-export function StickerVisual({ slug, name, image, price, index }: { slug: string; name: string; image: string; price: string; index: number }) {
-  return <Link href={`/stickers/${slug}`} className="group block min-w-[190px] flex-1"><div className="relative aspect-square overflow-hidden" style={{ backgroundColor: index % 2 === 0 ? '#171717' : '#202020' }}><StickerCard3D src={image} alt={name} className="absolute inset-4" sizes="220px" /><button className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center bg-[#12141C]/70 text-white transition-colors hover:text-[#F77F4A]" aria-label={`Ajouter ${name} aux favoris`} onClick={(e) => e.preventDefault()}><Heart size={15} /></button><span className="absolute bottom-3 left-3 z-10 font-montserrat text-[9px] tracking-[0.16em] text-white/50">ED. 001 / 050</span></div><div className="flex justify-between gap-2 pt-3 font-montserrat text-[10px]"><p className="font-bold tracking-[0.08em]">{name}</p><span className="font-bold">{price}</span></div></Link>
+export function DropBadge({ sticker, className = '' }: { sticker: Pick<StickerItem, 'isDrop' | 'dropLabel'>; className?: string }) {
+  if (!sticker.isDrop) return null
+  return <span className={`inline-flex items-center gap-1.5 bg-[#F77F4A] px-2.5 py-1 font-montserrat text-[9px] font-bold tracking-[0.1em] text-[#12141C] ${className}`}>ÉDITION LIMITÉE{sticker.dropLabel ? ` · ${sticker.dropLabel.split('/')[0].trim().toUpperCase()}` : ''}</span>
+}
+
+export function StickerVisual({ slug, name, image, price, sticker, artistName }: { slug: string; name: string; image: string; price: string; sticker: StickerItem; artistName?: string }) {
+  return <Link href={`/stickers/${slug}`} className="group block min-w-[190px] flex-1"><div className="relative flex aspect-square items-center justify-center"><StickerCard3D src={image} alt={name} className="absolute inset-4" sizes="220px" /><button className="absolute right-1 top-1 z-10 flex h-9 w-9 items-center justify-center transition-colors hover:text-[#F77F4A]" aria-label={`Ajouter ${name} aux favoris`} onClick={(e) => e.preventDefault()}><Heart size={16} /></button>{sticker.isDrop && <DropBadge sticker={sticker} className="absolute bottom-1 left-1 z-10" />}</div><div className="flex justify-between gap-2 pt-3 font-montserrat text-[10px]"><div><p className="font-bold tracking-[0.08em]">{name}</p>{artistName && <p className="mt-0.5 text-black/45">par {artistName}</p>}</div><span className="font-bold">{price}</span></div></Link>
 }
 
 export function TrendingSection() {
   const [filter, setFilter] = useState('CETTE SEMAINE')
   const items = getActiveStickers()
-  return <section id="shop" className="bg-[#F3ECE0] px-5 py-24 text-[#12141C] md:px-10 md:py-32"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-[#C8336A]">02 / LES COUPS DE CŒUR</p><h2 className="mt-4 font-author text-6xl leading-none tracking-[-0.06em] md:text-8xl">TENDANCES<br /><span className="italic text-[#F77F4A]">DU MOMENT.</span></h2></div><div className="flex gap-4 overflow-x-auto border-b border-black/15 pb-3 font-montserrat text-[9px] font-bold tracking-[0.12em]">{['AUJOURD\'HUI', 'CETTE SEMAINE', 'CE MOIS', 'ARTISTES ÉMERGENTS'].map((item) => <button className={`whitespace-nowrap transition-colors ${filter === item ? 'text-[#C8336A]' : 'text-black/40 hover:text-black'}`} onClick={() => setFilter(item)} key={item}>{item}</button>)}</div></div><div className="mt-12 flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 lg:grid-cols-6">{items.map((item, index) => <StickerVisual key={item.slug} slug={item.slug} name={item.name} image={item.image} price={item.price} index={index} />)}</div></div></section>
+  return <section id="shop" className="bg-[#F3ECE0] px-5 py-24 text-[#12141C] md:px-10 md:py-32"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-[#C8336A]">02 / LES COUPS DE CŒUR</p><h2 className="mt-4 font-author text-6xl leading-none tracking-[-0.06em] md:text-8xl">TENDANCES<br /><span className="italic text-[#F77F4A]">DU MOMENT.</span></h2></div><div className="flex gap-4 overflow-x-auto border-b border-black/15 pb-3 font-montserrat text-[9px] font-bold tracking-[0.12em]">{['AUJOURD\'HUI', 'CETTE SEMAINE', 'CE MOIS', 'ARTISTES ÉMERGENTS'].map((item) => <button className={`whitespace-nowrap transition-colors ${filter === item ? 'text-[#C8336A]' : 'text-black/40 hover:text-black'}`} onClick={() => setFilter(item)} key={item}>{item}</button>)}</div></div><div className="mt-12 flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 lg:grid-cols-6">{items.map((item) => <StickerVisual key={item.slug} slug={item.slug} name={item.name} image={item.image} price={item.price} sticker={item} />)}</div><div className="mt-12 flex flex-wrap gap-8 border-t border-black/10 pt-6 font-montserrat text-[11px] font-bold tracking-[0.12em]"><Link href="/boutique" className="flex items-center gap-2 text-black/70 transition-colors hover:text-[#C8336A]">VOIR TOUTE LA BOUTIQUE <ArrowUpRight size={14} /></Link><Link href="/drops" className="flex items-center gap-2 text-[#C8336A] transition-colors hover:text-[#F77F4A]">VOIR LE DROP EN COURS <ArrowUpRight size={14} /></Link></div></div></section>
 }
 
 export function ArtistSection() {
@@ -144,11 +158,11 @@ export function ArtistSection() {
 }
 
 export function CollectionSection() {
-  return <section id="collections" className="bg-[#12141C] px-5 py-24 md:px-10 md:py-32"><div className="mx-auto max-w-[1440px]"><div className="grid gap-10 md:grid-cols-[.8fr_1.2fr] md:items-center"><div><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-[#F77F4A]">04 / COLLECTION À LA UNE</p><h2 className="mt-4 font-author text-7xl leading-[.8] tracking-[-0.08em] text-[#F3ECE0] md:text-9xl">974<br /><span className="italic text-[#F77F4A]">FUTUR.</span></h2><p className="mt-8 max-w-sm font-montserrat text-sm leading-6 text-white/60">Un hommage à l&apos;île intense. 5 artistes, 1 territoire, une édition qui ne reviendra pas.</p><a href="#drops" className="mt-8 inline-flex items-center gap-3 border-b border-[#F77F4A] pb-3 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">VOIR LA COLLECTION <ArrowUpRight size={15} /></a></div><div className="relative overflow-hidden bg-[#171717] p-4 md:p-8"><Image src="/kreatik/reunion-collage.png" alt="Collection 974 Futur, hommage artistique à La Réunion" width={900} height={700} className="aspect-[1.2] object-cover transition-transform duration-700 hover:scale-105" /></div></div></div></section>
+  return <section id="collections" className="bg-[#12141C] px-5 py-24 md:px-10 md:py-32"><div className="mx-auto max-w-[1440px]"><div className="grid gap-10 md:grid-cols-[.8fr_1.2fr] md:items-center"><div><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-[#F77F4A]">04 / COLLECTION À LA UNE</p><h2 className="mt-4 font-author text-7xl leading-[.8] tracking-[-0.08em] text-[#F3ECE0] md:text-9xl">974<br /><span className="italic text-[#F77F4A]">FUTUR.</span></h2><p className="mt-8 max-w-sm font-montserrat text-sm leading-6 text-white/60">Un hommage à l&apos;île intense. 5 artistes, 1 territoire, une édition qui ne reviendra pas.</p><Link href="/drops" className="mt-8 inline-flex items-center gap-3 border-b border-[#F77F4A] pb-3 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">VOIR LA COLLECTION <ArrowUpRight size={15} /></Link></div><div className="relative overflow-hidden bg-[#171717] p-4 md:p-8"><Image src="/kreatik/reunion-collage.png" alt="Collection 974 Futur, hommage artistique à La Réunion" width={900} height={700} className="aspect-[1.2] object-cover transition-transform duration-700 hover:scale-105" /></div></div></div></section>
 }
 
 export function DropBanner() {
-  return <section id="drops" className="bg-[#C8336A] px-5 py-16 text-[#F3ECE0] md:px-10 md:py-24"><div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-8 md:flex-row md:items-center"><div><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-white/70">EN DIRECT / ÉDITION LIMITÉE</p><h2 className="mt-3 font-author text-6xl leading-none tracking-[-0.06em] md:text-8xl">DROP 001 —<br /><span className="italic text-[#F6E29B]">974 FUTUR</span></h2></div><div className="border-l border-white/30 pl-6 md:min-w-[280px]"><p className="font-montserrat text-[10px] font-bold tracking-[0.18em] text-white/70">SE TERMINE DANS</p><p className="mt-2 font-author text-5xl">06:18:42</p><p className="mt-3 font-montserrat text-[10px] text-white/70">Disponible seulement 7 jours</p><a href="#shop" className="mt-6 inline-flex items-center gap-3 bg-[#F6E29B] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C]">ACHETER LE DROP <ArrowUpRight size={15} /></a></div></div></section>
+  return <section id="drops" className="bg-[#C8336A] px-5 py-16 text-[#F3ECE0] md:px-10 md:py-24"><div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-8 md:flex-row md:items-center"><div><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-white/70">EN DIRECT / ÉDITION LIMITÉE</p><h2 className="mt-3 font-author text-6xl leading-none tracking-[-0.06em] md:text-8xl">DROP 001 —<br /><span className="italic text-[#F6E29B]">974 FUTUR</span></h2></div><div className="border-l border-white/30 pl-6 md:min-w-[280px]"><p className="font-montserrat text-[10px] font-bold tracking-[0.18em] text-white/70">SE TERMINE DANS</p><p className="mt-2 font-author text-5xl">06:18:42</p><p className="mt-3 font-montserrat text-[10px] text-white/70">Disponible seulement 7 jours</p><Link href="/drops" className="mt-6 inline-flex items-center gap-3 bg-[#F6E29B] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C]">ACHETER LE DROP <ArrowUpRight size={15} /></Link></div></div></section>
 }
 
 export function StickerLabPreview() {
@@ -182,7 +196,7 @@ export function PackagingSection() {
 }
 
 export function Footer() {
-  return <footer className="bg-[#12141C] px-5 py-12 text-[#F3ECE0] md:px-10"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-10 border-b border-white/15 pb-12 md:flex-row"><div><p className="font-author text-5xl italic tracking-[-0.08em]">KREATIK<span className="text-[#F77F4A]">.</span></p><p className="mt-4 max-w-xs font-montserrat text-xs leading-5 text-white/50">Le sticker comme objet artistique.<br />Fait avec cœur, depuis La Réunion.</p><div className="mt-6 flex items-center gap-4 text-white/60"><a href="https://instagram.com/kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="Instagram">Instagram</a><a href="https://tiktok.com/@kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="TikTok">TikTok</a><a href="https://youtube.com/@kreatikofficiel" className="transition-colors hover:text-[#F77F4A]" aria-label="YouTube">YouTube</a></div></div><div className="grid grid-cols-2 gap-x-16 gap-y-4 font-montserrat text-[10px] font-bold tracking-[0.14em] text-white/60"><a href="#shop">BOUTIQUE</a><a href="#artists">ARTISTES</a><a href="#collections">COLLECTIONS</a><Link href="/atelier">ATELIER</Link><a href="#drops">DROPS</a><a href="#fondateur">À PROPOS</a></div><div className="font-montserrat text-xs text-white/60"><p className="text-[10px] font-bold tracking-[0.18em] text-white/40">CONTACT</p><a href="mailto:contact.kreatik@protonmail.com" className="mt-3 block transition-colors hover:text-[#F77F4A]">contact.kreatik@protonmail.com</a><p className="mt-5 text-[10px] font-bold tracking-[0.18em] text-white/40">DEVIS PRO / SUR-MESURE</p><a href="mailto:contact.kreatik@protonmail.com?subject=Devis%20sur-mesure" className="mt-3 inline-flex items-center gap-2 border border-white/25 px-4 py-3 text-[10px] font-bold tracking-[0.14em] transition-colors hover:border-[#F77F4A] hover:text-[#F77F4A]">DEMANDER UN DEVIS <ArrowUpRight size={13} /></a></div></div><div className="flex flex-col justify-between gap-3 pt-6 font-montserrat text-[9px] tracking-[0.12em] text-white/35 md:flex-row"><span>© 2024 KREATIK STUDIO / FABRIQUÉ EN FRANCE</span><span>EMBALLAGE FSC / VINYLE RECYCLABLE / ENCRES VÉGÉTALES</span></div></div></footer>
+  return <footer className="bg-[#12141C] px-5 py-12 text-[#F3ECE0] md:px-10"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-10 border-b border-white/15 pb-12 md:flex-row"><div><p className="font-author text-5xl italic tracking-[-0.08em]">KREATIK<span className="text-[#F77F4A]">.</span></p><p className="mt-4 max-w-xs font-montserrat text-xs leading-5 text-white/50">Le sticker comme objet artistique.<br />Fait avec cœur, depuis La Réunion.</p><div className="mt-6 flex items-center gap-4 text-white/60"><a href="https://instagram.com/kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="Instagram">Instagram</a><a href="https://tiktok.com/@kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="TikTok">TikTok</a><a href="https://youtube.com/@kreatikofficiel" className="transition-colors hover:text-[#F77F4A]" aria-label="YouTube">YouTube</a></div></div><div className="grid grid-cols-2 gap-x-16 gap-y-4 font-montserrat text-[10px] font-bold tracking-[0.14em] text-white/60"><Link href="/boutique">BOUTIQUE</Link><a href="/#artists">ARTISTES</a><a href="/#collections">COLLECTIONS</a><Link href="/atelier">ATELIER</Link><Link href="/drops">DROPS</Link><a href="/#fondateur">À PROPOS</a></div><div className="font-montserrat text-xs text-white/60"><p className="text-[10px] font-bold tracking-[0.18em] text-white/40">CONTACT</p><a href="mailto:contact.kreatik@protonmail.com" className="mt-3 block transition-colors hover:text-[#F77F4A]">contact.kreatik@protonmail.com</a><p className="mt-5 text-[10px] font-bold tracking-[0.18em] text-white/40">DEVIS PRO / SUR-MESURE</p><a href="mailto:contact.kreatik@protonmail.com?subject=Devis%20sur-mesure" className="mt-3 inline-flex items-center gap-2 border border-white/25 px-4 py-3 text-[10px] font-bold tracking-[0.14em] transition-colors hover:border-[#F77F4A] hover:text-[#F77F4A]">DEMANDER UN DEVIS <ArrowUpRight size={13} /></a></div></div><div className="flex flex-col justify-between gap-3 pt-6 font-montserrat text-[9px] tracking-[0.12em] text-white/35 md:flex-row"><span>© 2024 KREATIK STUDIO / FABRIQUÉ EN FRANCE</span><span>EMBALLAGE FSC / VINYLE RECYCLABLE / ENCRES VÉGÉTALES</span></div></div></footer>
 }
 
 export function KreatikHome() {

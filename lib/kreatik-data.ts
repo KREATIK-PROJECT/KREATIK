@@ -6,6 +6,16 @@
 //   avec `artistSlug` qui correspond au `slug` de l'artiste concerné.
 // Pour RETIRER un artiste ou un sticker : supprime simplement son objet
 //   (ou passe `active: false` si tu veux juste le masquer sans le supprimer).
+//
+// BOUTIQUE vs DROP :
+// - `isDrop: true`  → le sticker fait partie d'un drop temporaire (édition
+//   limitée, lié à un thème/une île/un artiste). Il apparaît sur /drops
+//   avec le badge "ÉDITION LIMITÉE" et le nom du drop.
+// - `isDrop: false` (ou absent) → le sticker fait partie du catalogue
+//   permanent. Il apparaît sur /boutique, sans badge d'urgence.
+// Un même sticker peut redescendre en boutique une fois son drop terminé :
+// il suffit de repasser `isDrop` à false.
+//
 // Le site (pages listing + fiches individuelles) se met à jour tout seul
 // à partir de ces deux tableaux — aucun autre fichier à toucher.
 // ────────────────────────────────────────────────────────────────
@@ -31,6 +41,9 @@ export type StickerItem = {
   finish: string
   tag: string
   active?: boolean
+  isDrop?: boolean
+  dropLabel?: string
+  dropEndsAt?: string
 }
 
 export const artists: Artist[] = [
@@ -56,6 +69,8 @@ export const artists: Artist[] = [
   },
 ]
 
+const DROP_001 = 'Drop 001 / La Réunion'
+
 export const stickers: StickerItem[] = [
   {
     slug: 'kine-la-rak',
@@ -65,6 +80,8 @@ export const stickers: StickerItem[] = [
     price: '12,99 €',
     finish: 'Glossy',
     tag: 'Collection 974',
+    isDrop: true,
+    dropLabel: DROP_001,
   },
   {
     slug: 'cok-lacour',
@@ -74,6 +91,8 @@ export const stickers: StickerItem[] = [
     price: '12,99 €',
     finish: 'Matte',
     tag: 'Édition limitée',
+    isDrop: true,
+    dropLabel: DROP_001,
   },
   {
     slug: 'chien-denis-crew',
@@ -83,6 +102,8 @@ export const stickers: StickerItem[] = [
     price: '12,99 €',
     finish: 'Holographic',
     tag: 'Marketplace',
+    isDrop: true,
+    dropLabel: DROP_001,
   },
   {
     slug: '974-tag',
@@ -92,6 +113,8 @@ export const stickers: StickerItem[] = [
     price: '9,99 €',
     finish: 'Matte',
     tag: 'Collection 974',
+    isDrop: true,
+    dropLabel: DROP_001,
   },
   {
     slug: '974-tag-gradient',
@@ -101,6 +124,8 @@ export const stickers: StickerItem[] = [
     price: '9,99 €',
     finish: 'Glossy',
     tag: 'Collection 974',
+    isDrop: true,
+    dropLabel: DROP_001,
   },
   {
     slug: '974-tag-holo',
@@ -110,6 +135,8 @@ export const stickers: StickerItem[] = [
     price: '11,99 €',
     finish: 'Holographic',
     tag: 'Holographique',
+    isDrop: true,
+    dropLabel: DROP_001,
   },
   {
     slug: 'kafrine-do-fe',
@@ -119,6 +146,8 @@ export const stickers: StickerItem[] = [
     price: '14,99 €',
     finish: 'Glossy',
     tag: 'Édition limitée',
+    isDrop: true,
+    dropLabel: DROP_001,
   },
 ]
 
@@ -128,6 +157,14 @@ export function getActiveArtists() {
 
 export function getActiveStickers() {
   return stickers.filter((s) => s.active !== false)
+}
+
+export function getBoutiqueStickers() {
+  return getActiveStickers().filter((s) => !s.isDrop)
+}
+
+export function getDropStickers() {
+  return getActiveStickers().filter((s) => s.isDrop)
 }
 
 export function getArtist(slug: string) {
