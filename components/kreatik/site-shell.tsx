@@ -20,16 +20,16 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', w: 560, h: 700, rotate: '-8deg', x: '9%', y: '15%', width: 'w-24 md:w-32' },
-  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', w: 720, h: 900, rotate: '5deg', x: '38%', y: '9%', width: 'w-20 md:w-28' },
-  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', w: 560, h: 700, rotate: '9deg', x: '86%', y: '17%', width: 'w-24 md:w-32' },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', w: 560, h: 700, rotate: '-6deg', x: '8%', y: '50%', width: 'w-28 md:w-36' },
-  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', w: 900, h: 900, rotate: '-5deg', x: '91%', y: '44%', width: 'w-20 md:w-28' },
-  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', w: 560, h: 700, rotate: '7deg', x: '6%', y: '82%', width: 'w-24 md:w-32' },
-  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '65%', y: '78%', width: 'w-20 md:w-24' },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', w: 560, h: 700, rotate: '-8deg', x: '10%', y: '16%', width: 'w-24 md:w-32' },
+  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', w: 720, h: 900, rotate: '5deg', x: '34%', y: '8%', width: 'w-20 md:w-28' },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', w: 560, h: 700, rotate: '9deg', x: '43%', y: '17%', width: 'w-20 md:w-28' },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', w: 560, h: 700, rotate: '-6deg', x: '15%', y: '83%', width: 'w-24 md:w-32' },
+  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', w: 900, h: 900, rotate: '-5deg', x: '23%', y: '70%', width: 'w-16 md:w-20' },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', w: 560, h: 700, rotate: '7deg', x: '5%', y: '60%', width: 'w-24 md:w-32' },
+  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '39%', y: '80%', width: 'w-16 md:w-20' },
 ]
-const heroLogo = { src: '/kreatik/logo-kreatik.png', x: '84%', y: '86%', width: 'w-28 md:w-36' }
-const heroPackaging = { src: '/kreatik/packaging/boite.jpg', x: '50%', y: '45%', width: 'w-56 md:w-72' }
+const heroLogo = { src: '/kreatik/logo-kreatik.png', x: '28%', y: '93%', width: 'w-24 md:w-32' }
+const heroPackaging = { src: '/kreatik/packaging/boite.jpg', x: '31%', y: '46%', width: 'w-52 md:w-64' }
 
 const heroLines = [
   { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
@@ -105,7 +105,7 @@ export function HeroDrop() {
             <a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">CRÉE TON STICKER</a>
           </div>
         </div>
-        <div className="relative mx-auto aspect-[6/5] w-full max-w-[720px]">
+        <div className="relative mx-auto aspect-[8/5] w-full max-w-[820px] lg:mr-[-8%] lg:max-w-none">
           <div className="absolute z-10 overflow-hidden rounded-md shadow-[0_30px_60px_-20px_rgba(0,0,0,.7)]" style={{ left: heroPackaging.x, top: heroPackaging.y, transform: 'translate(-50%, -50%)' }}>
             <Image src={heroPackaging.src} alt="Boîte Kreatik" width={1400} height={1080} className={`${heroPackaging.width} h-auto`} priority />
           </div>
