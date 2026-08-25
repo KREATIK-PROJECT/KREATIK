@@ -17,10 +17,10 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: '974', color: 'bg-[#F6E29B] text-[#12141C]', rotate: '-rotate-12', position: 'left-[6%] top-[18%]' },
-  { label: 'KREOL', color: 'bg-[#00767D] text-[#F3ECE0]', rotate: 'rotate-6', position: 'right-[5%] top-[15%]' },
-  { label: 'FUTUR', color: 'bg-[#F77F4A] text-[#12141C]', rotate: 'rotate-12', position: 'left-[10%] bottom-[19%]' },
-  { label: 'LOVE', color: 'bg-[#C8336A] text-[#F3ECE0]', rotate: '-rotate-6', position: 'right-[10%] bottom-[17%]' },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-rotate-12', position: 'left-[6%] top-[18%]' },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: 'rotate-6', position: 'right-[5%] top-[15%]' },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: 'rotate-12', position: 'left-[10%] bottom-[19%]' },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-rotate-6', position: 'right-[10%] bottom-[17%]' },
 ]
 
 export function SiteHeader() {
@@ -59,7 +59,7 @@ export function HeroDrop() {
         </div>
         <div className="relative mx-auto aspect-square w-full max-w-[660px] animate-scale-in">
           <div className="absolute inset-[12%] overflow-hidden rounded-[48%_52%_45%_55%] bg-[#171717]"><Image src="/kreatik/reunion-collage.png" alt="Collection 974, stickers inspirés de La Réunion" fill priority className="object-cover" sizes="(max-width: 1024px) 90vw, 55vw" /></div>
-          {stickers.map((sticker, i) => <div key={sticker.label} className={`absolute ${sticker.position} ${sticker.rotate} ${sticker.color} animate-float-${i % 2 ? 'slow' : ''} z-10 flex aspect-square w-20 items-center justify-center rounded-[38%_62%_58%_42%] border-4 border-[#12141C] font-author text-xl font-bold shadow-[8px_12px_0_rgba(0,0,0,.35)] md:w-28 md:text-3xl`}>{sticker.label}</div>)}
+          {stickers.map((sticker, i) => <div key={sticker.label} className={`absolute ${sticker.position} ${sticker.rotate} animate-float-${i % 2 ? 'slow' : ''} z-10 aspect-square w-24 drop-shadow-[8px_12px_10px_rgba(0,0,0,.45)] md:w-36`}><Image src={sticker.src} alt={sticker.label} fill className="object-contain" sizes="150px" /></div>)}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/50">MADE IN FRANCE / 974</div>
         </div>
       </div>
