@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ExternalLink, Music2, ArrowLeft } from 'lucide-react'
 import { getActiveArtists, getArtist, getStickersByArtist } from '@/lib/kreatik-data'
+import { StickerCard3D } from '@/components/kreatik/sticker-3d'
 import { SiteHeader, Footer } from '@/components/kreatik/site-shell'
 
 export function generateStaticParams() {
@@ -45,7 +45,7 @@ export default async function ArtistPage({ params }: { params: Promise<{ slug: s
               {items.map((item) => (
                 <Link key={item.slug} href={`/stickers/${item.slug}`} className="group block">
                   <div className="relative aspect-square overflow-hidden bg-[#171717]">
-                    <Image src={item.image} alt={item.name} fill className="object-contain p-4 transition-transform duration-500 group-hover:scale-105" />
+                    <StickerCard3D src={item.image} alt={item.name} className="absolute inset-4" sizes="240px" />
                   </div>
                   <p className="mt-3 font-montserrat text-xs font-bold">{item.name}</p>
                   <p className="font-montserrat text-[11px] text-black/50">{item.price}</p>

@@ -1,9 +1,9 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Heart } from 'lucide-react'
 import { getActiveStickers, getSticker, getArtist, getStickersByArtist } from '@/lib/kreatik-data'
 import { SiteHeader, Footer } from '@/components/kreatik/site-shell'
+import { StickerCard3D } from '@/components/kreatik/sticker-3d'
 
 export function generateStaticParams() {
   return getActiveStickers().map((s) => ({ slug: s.slug }))
@@ -25,8 +25,8 @@ export default async function StickerPage({ params }: { params: Promise<{ slug: 
 
           <div className="mt-8 grid gap-14 md:grid-cols-2 md:items-start">
             <div className="relative aspect-square overflow-hidden bg-[#171717]">
-              <Image src={sticker.image} alt={sticker.name} fill priority className="object-contain p-10" />
-              <span className="absolute left-4 top-4 bg-[#12141C] px-3 py-1.5 font-montserrat text-[9px] font-bold tracking-[0.1em] text-[#F9CAB2]">{sticker.tag.toUpperCase()}</span>
+              <StickerCard3D src={sticker.image} alt={sticker.name} className="absolute inset-10" sizes="500px" priority maxTilt={14} shadowStrength={1.3} />
+              <span className="absolute left-4 top-4 z-10 bg-[#12141C] px-3 py-1.5 font-montserrat text-[9px] font-bold tracking-[0.1em] text-[#F9CAB2]">{sticker.tag.toUpperCase()}</span>
             </div>
 
             <div>
@@ -52,7 +52,7 @@ export default async function StickerPage({ params }: { params: Promise<{ slug: 
                   <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
                     {more.map((m) => (
                       <Link key={m.slug} href={`/stickers/${m.slug}`} className="relative aspect-square w-24 flex-shrink-0 overflow-hidden bg-[#171717]">
-                        <Image src={m.image} alt={m.name} fill className="object-contain p-3" />
+                        <StickerCard3D src={m.image} alt={m.name} className="absolute inset-2" sizes="100px" maxTilt={8} shadowStrength={0.6} />
                       </Link>
                     ))}
                   </div>

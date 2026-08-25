@@ -158,8 +158,10 @@ export function IntroStatement() {
 
 export const sampleStickers = getActiveStickers()
 
+import { StickerCard3D } from './sticker-3d'
+
 export function StickerVisual({ slug, name, image, price, index }: { slug: string; name: string; image: string; price: string; index: number }) {
-  return <Link href={`/stickers/${slug}`} className="group block min-w-[190px] flex-1"><div className="relative aspect-square overflow-hidden" style={{ backgroundColor: index % 2 === 0 ? '#171717' : '#202020' }}><Image src={image} alt={name} fill className="object-contain p-6 transition-transform duration-500 group-hover:scale-105" sizes="220px" /><button className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center bg-[#12141C]/70 text-white transition-colors hover:text-[#F77F4A]" aria-label={`Ajouter ${name} aux favoris`} onClick={(e) => e.preventDefault()}><Heart size={15} /></button><span className="absolute bottom-3 left-3 font-montserrat text-[9px] tracking-[0.16em] text-white/50">ED. 001 / 050</span></div><div className="flex justify-between gap-2 pt-3 font-montserrat text-[10px]"><p className="font-bold tracking-[0.08em]">{name}</p><span className="font-bold">{price}</span></div></Link>
+  return <Link href={`/stickers/${slug}`} className="group block min-w-[190px] flex-1"><div className="relative aspect-square overflow-hidden" style={{ backgroundColor: index % 2 === 0 ? '#171717' : '#202020' }}><StickerCard3D src={image} alt={name} className="absolute inset-4" sizes="220px" /><button className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center bg-[#12141C]/70 text-white transition-colors hover:text-[#F77F4A]" aria-label={`Ajouter ${name} aux favoris`} onClick={(e) => e.preventDefault()}><Heart size={15} /></button><span className="absolute bottom-3 left-3 z-10 font-montserrat text-[9px] tracking-[0.16em] text-white/50">ED. 001 / 050</span></div><div className="flex justify-between gap-2 pt-3 font-montserrat text-[10px]"><p className="font-bold tracking-[0.08em]">{name}</p><span className="font-bold">{price}</span></div></Link>
 }
 
 export function TrendingSection() {
