@@ -29,7 +29,7 @@ const stickers = [
   { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '49%', y: '68%', width: 'w-16 md:w-20' },
 ]
 const heroLogo = { src: '/kreatik/logo-kreatik.png', x: '61%', y: '77%', width: 'w-28 md:w-36' }
-const heroPackaging = { src: '/kreatik/packaging/boite-transparent.png', w: 1157, h: 894, x: '40%', y: '50%', width: 'w-56 md:w-72' }
+const heroPackaging = { src: '/kreatik/packaging/boite-transparent.png', w: 1152, h: 885, x: '40%', y: '50%', width: 'w-72 md:w-[440px]' }
 
 const heroLines = [
   { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
