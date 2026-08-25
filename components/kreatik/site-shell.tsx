@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, Sparkles, X } from 'lucide-react'
 import Lenis from 'lenis'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getActiveArtists, getActiveStickers, getBoutiqueStickers, getDropStickers, type StickerItem } from '@/lib/kreatik-data'
+import { DraggableStickerLayer } from './draggable-stickers'
 
 function SmoothScroll() {
   useEffect(() => {
@@ -23,7 +24,7 @@ const stickers = [
   { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', w: 560, h: 700, rotate: '-8deg', x: '11%', y: '31%', width: 'w-32 md:w-44' },
   { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', w: 720, h: 900, rotate: '5deg', x: '29%', y: '23%', width: 'w-28 md:w-36' },
   { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', w: 560, h: 700, rotate: '9deg', x: '59%', y: '28%', width: 'w-28 md:w-36' },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', w: 560, h: 700, rotate: '-6deg', x: '82%', y: '16%', width: 'w-28 md:w-36' },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', w: 560, h: 700, rotate: '-6deg', x: '80%', y: '48%', width: 'w-28 md:w-36' },
   { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', w: 900, h: 900, rotate: '-5deg', x: '20%', y: '84%', width: 'w-24 md:w-28' },
   { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', w: 560, h: 700, rotate: '7deg', x: '10%', y: '73%', width: 'w-32 md:w-44' },
   { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '49%', y: '68%', width: 'w-24 md:w-28' },
@@ -80,7 +81,7 @@ export function SiteHeader() {
 }
 
 
-export function HeroDrop() {
+export function HeroDrop({ visualRef }: { visualRef?: React.RefObject<HTMLDivElement | null> }) {
   return (
     <section id="top" className="relative min-h-[720px] overflow-hidden bg-[#12141C] px-5 py-20 md:min-h-[780px] md:px-10 md:py-24">
       <div
@@ -105,16 +106,11 @@ export function HeroDrop() {
             <a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">CRÉE TON STICKER</a>
           </div>
         </div>
-        <div className="relative mx-auto aspect-square w-full max-w-[980px]">
+        <div ref={visualRef} className="relative mx-auto aspect-square w-full max-w-[980px]">
           <div className="absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle at 35% 30%, #22242f 0%, #14151d 70%)' }} />
           <div className="absolute z-10" style={{ left: heroPackaging.x, top: heroPackaging.y, transform: 'translate(-50%, -50%)' }}>
             <Image src={heroPackaging.src} alt="Boîte Kreatik" width={heroPackaging.w} height={heroPackaging.h} className={`${heroPackaging.width} h-auto drop-shadow-[10px_18px_20px_rgba(0,0,0,.55)]`} priority />
           </div>
-          {stickers.map((sticker) => (
-            <div key={sticker.label} className="absolute z-10 drop-shadow-[6px_10px_10px_rgba(0,0,0,.4)]" style={{ left: sticker.x, top: sticker.y, transform: `translate(-50%, -50%) rotate(${sticker.rotate})` }}>
-              <Image src={sticker.src} alt={sticker.label} width={sticker.w} height={sticker.h} className={`${sticker.width} h-auto`} />
-            </div>
-          ))}
           <div className="absolute z-10 drop-shadow-[0_10px_20px_rgba(0,0,0,.5)]" style={{ left: heroLogo.x, top: heroLogo.y, transform: 'translate(-50%, -50%)' }}>
             <Image src={heroLogo.src} alt="KREATIK" width={900} height={900} className={`${heroLogo.width} h-auto`} />
           </div>
@@ -201,5 +197,14 @@ export function Footer() {
 }
 
 export function KreatikHome() {
-  return <><SmoothScroll /><SiteHeader /><main><HeroDrop /><DropTicker /><IntroStatement /><TrendingSection /><ArtistSection /><CollectionSection /><DropBanner /><StickerLabPreview /><FounderSection /><ConvictionsSection /><PackagingSection /></main><Footer /></>
+  const heroVisualRef = useRef<HTMLDivElement>(null)
+  return (
+    <div className="relative">
+      <SmoothScroll />
+      <SiteHeader />
+      <main><HeroDrop visualRef={heroVisualRef} /><DropTicker /><IntroStatement /><TrendingSection /><ArtistSection /><CollectionSection /><DropBanner /><StickerLabPreview /><FounderSection /><ConvictionsSection /><PackagingSection /></main>
+      <Footer />
+      <DraggableStickerLayer stickers={stickers} anchorRef={heroVisualRef} />
+    </div>
+  )
 }
