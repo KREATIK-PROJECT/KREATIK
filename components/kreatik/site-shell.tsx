@@ -20,16 +20,16 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', w: 560, h: 700, rotate: '-8deg', x: '11%', y: '31%', width: 'w-48 md:w-64' },
-  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', w: 720, h: 900, rotate: '5deg', x: '29%', y: '23%', width: 'w-40 md:w-56' },
-  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', w: 560, h: 700, rotate: '9deg', x: '59%', y: '28%', width: 'w-40 md:w-56' },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', w: 560, h: 700, rotate: '-6deg', x: '53%', y: '86%', width: 'w-40 md:w-56' },
-  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', w: 900, h: 900, rotate: '-5deg', x: '20%', y: '84%', width: 'w-32 md:w-40' },
-  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', w: 560, h: 700, rotate: '7deg', x: '10%', y: '73%', width: 'w-48 md:w-64' },
-  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '49%', y: '68%', width: 'w-32 md:w-40' },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', w: 560, h: 700, rotate: '-8deg', x: '11%', y: '31%', width: 'w-32 md:w-44' },
+  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', w: 720, h: 900, rotate: '5deg', x: '29%', y: '23%', width: 'w-28 md:w-36' },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', w: 560, h: 700, rotate: '9deg', x: '59%', y: '28%', width: 'w-28 md:w-36' },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', w: 560, h: 700, rotate: '-6deg', x: '82%', y: '16%', width: 'w-28 md:w-36' },
+  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', w: 900, h: 900, rotate: '-5deg', x: '20%', y: '84%', width: 'w-24 md:w-28' },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', w: 560, h: 700, rotate: '7deg', x: '10%', y: '73%', width: 'w-32 md:w-44' },
+  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '49%', y: '68%', width: 'w-24 md:w-28' },
 ]
 const heroLogo = { src: '/kreatik/logo-kreatik.png', x: '61%', y: '77%', width: 'w-28 md:w-36' }
-const heroPackaging = { src: '/kreatik/packaging/pochon-et-boite.png', w: 1524, h: 1006, x: '40%', y: '50%', width: 'w-72 md:w-[440px]' }
+const heroPackaging = { src: '/kreatik/packaging/pochon-et-boite.png', w: 1524, h: 1006, x: '40%', y: '50%', width: 'w-96 md:w-[600px]' }
 
 const heroLines = [
   { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
