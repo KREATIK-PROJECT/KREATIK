@@ -29,7 +29,7 @@ const stickers = [
   { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '49%', y: '68%', width: 'w-16 md:w-20' },
 ]
 const heroLogo = { src: '/kreatik/logo-kreatik.png', x: '61%', y: '77%', width: 'w-28 md:w-36' }
-const heroPackaging = { src: '/kreatik/packaging/boite-transparent.png', w: 1152, h: 885, x: '40%', y: '50%', width: 'w-72 md:w-[440px]' }
+const heroPackaging = { src: '/kreatik/packaging/boite-transparent.png', w: 1518, h: 1024, x: '40%', y: '50%', width: 'w-72 md:w-[440px]' }
 
 const heroLines = [
   { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
@@ -91,7 +91,7 @@ export function HeroDrop() {
         }}
       />
       <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2" style={{ background: 'radial-gradient(60% 60% at 70% 40%, rgba(247,127,74,.10) 0%, transparent 70%)' }} />
-      <div className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
+      <div className="relative z-10 mx-auto grid max-w-[1600px] items-center gap-6 lg:grid-cols-[0.85fr_1.2fr]">
         <div className="max-w-xl">
           <div className="mb-6 flex items-center gap-3 font-montserrat text-[10px] font-bold tracking-[0.22em] text-[#F77F4A]"><span className="h-px w-10 bg-[#F77F4A]" /> DROP 001 / LA RÉUNION</div>
           <h1 className="w-full max-w-full font-author leading-[1.02] tracking-[-0.03em]" style={{ fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)' }}>
@@ -105,19 +105,20 @@ export function HeroDrop() {
             <a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">CRÉE TON STICKER</a>
           </div>
         </div>
-        <div className="relative mx-auto aspect-[8/5] w-full max-w-[820px]">
+        <div className="relative mx-auto aspect-square w-full max-w-[980px]">
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle at 35% 30%, #22242f 0%, #14151d 70%)' }} />
           <div className="absolute z-10" style={{ left: heroPackaging.x, top: heroPackaging.y, transform: 'translate(-50%, -50%)' }}>
             <Image src={heroPackaging.src} alt="Boîte Kreatik" width={heroPackaging.w} height={heroPackaging.h} className={`${heroPackaging.width} h-auto drop-shadow-[10px_18px_20px_rgba(0,0,0,.55)]`} priority />
           </div>
           {stickers.map((sticker) => (
-            <div key={sticker.label} className="absolute drop-shadow-[6px_10px_10px_rgba(0,0,0,.4)]" style={{ left: sticker.x, top: sticker.y, transform: `translate(-50%, -50%) rotate(${sticker.rotate})` }}>
+            <div key={sticker.label} className="absolute z-10 drop-shadow-[6px_10px_10px_rgba(0,0,0,.4)]" style={{ left: sticker.x, top: sticker.y, transform: `translate(-50%, -50%) rotate(${sticker.rotate})` }}>
               <Image src={sticker.src} alt={sticker.label} width={sticker.w} height={sticker.h} className={`${sticker.width} h-auto`} />
             </div>
           ))}
-          <div className="absolute drop-shadow-[0_10px_20px_rgba(0,0,0,.5)]" style={{ left: heroLogo.x, top: heroLogo.y, transform: 'translate(-50%, -50%)' }}>
+          <div className="absolute z-10 drop-shadow-[0_10px_20px_rgba(0,0,0,.5)]" style={{ left: heroLogo.x, top: heroLogo.y, transform: 'translate(-50%, -50%)' }}>
             <Image src={heroLogo.src} alt="KREATIK" width={900} height={900} className={`${heroLogo.width} h-auto`} />
           </div>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/40">FABRIQUÉ EN FRANCE / 974</div>
+          <div className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/40">FABRIQUÉ EN FRANCE / 974</div>
         </div>
       </div>
       <div className="absolute bottom-7 left-5 font-montserrat text-[9px] tracking-[0.18em] text-white/30 md:left-10">DÉFILE POUR EXPLORER ↓</div>
