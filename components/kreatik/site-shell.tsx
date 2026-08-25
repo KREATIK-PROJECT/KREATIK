@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, Sparkles, X } from 'lucide-react'
 import Lenis from 'lenis'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { MouseEvent } from 'react'
 
 function SmoothScroll() {
   useEffect(() => {
@@ -17,10 +18,16 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-rotate-8', position: 'left-[8%] top-[10%]', scale: 'scale-100' },
-  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: 'rotate-8', position: 'right-[8%] top-[10%]', scale: 'scale-125' },
-  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: 'rotate-8', position: 'left-[8%] bottom-[10%]', scale: 'scale-110' },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-rotate-8', position: 'right-[8%] bottom-[10%]', scale: 'scale-95' },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-6deg', position: 'left-[8%] top-[10%]', scale: 'scale-100', dur: 6.5, delay: 0, floatY: -14, floatRot: 5, depth: 1.3 },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: '6deg', position: 'right-[8%] top-[10%]', scale: 'scale-125', dur: 7.2, delay: 0.6, floatY: -18, floatRot: -6, depth: 1.6 },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: '6deg', position: 'left-[8%] bottom-[10%]', scale: 'scale-110', dur: 5.8, delay: 1.1, floatY: -12, floatRot: 6, depth: 1.2 },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-6deg', position: 'right-[8%] bottom-[10%]', scale: 'scale-95', dur: 6.9, delay: 0.3, floatY: -16, floatRot: -5, depth: 1.45 },
+]
+
+const heroLines = [
+  { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
+  { text: 'CRÉE.', className: 'italic text-[#F77F4A]' },
+  { text: 'COLLECTIONNE.', className: 'text-[#F3ECE0]' },
 ]
 
 export function SiteHeader() {
@@ -47,19 +54,75 @@ export function SiteHeader() {
 }
 
 export function HeroDrop() {
+  const [mounted, setMounted] = useState(false)
+  const [pointer, setPointer] = useState({ x: 0, y: 0 })
+  const [reducedMotion, setReducedMotion] = useState(false)
+  const stageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 80)
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const onMq = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    mq.addEventListener?.('change', onMq)
+    return () => { clearTimeout(t); mq.removeEventListener?.('change', onMq) }
+  }, [])
+
+  const handlePointerMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (reducedMotion || !stageRef.current) return
+    const rect = stageRef.current.getBoundingClientRect()
+    setPointer({ x: (e.clientX - rect.left) / rect.width - 0.5, y: (e.clientY - rect.top) / rect.height - 0.5 })
+  }
+  const handlePointerLeave = () => setPointer({ x: 0, y: 0 })
+
   return (
     <section id="top" className="relative min-h-[720px] overflow-hidden bg-[#12141C] px-5 py-20 md:min-h-[780px] md:px-10 md:py-24">
-      <div className="pointer-events-none absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
-        <div className="max-w-xl animate-appear-up">
+      <div
+        className="kt-grid-drift pointer-events-none absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+          transform: reducedMotion ? undefined : `translate(${pointer.x * -8}px, ${pointer.y * -8}px)`,
+        }}
+      />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2" style={{ background: 'radial-gradient(60% 60% at 70% 40%, rgba(247,127,74,.10) 0%, transparent 70%)' }} />
+      <div ref={stageRef} onMouseMove={handlePointerMove} onMouseLeave={handlePointerLeave} className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
+        <div className="max-w-xl">
           <div className="mb-6 flex items-center gap-3 font-montserrat text-[10px] font-bold tracking-[0.22em] text-[#F77F4A]"><span className="h-px w-10 bg-[#F77F4A]" /> DROP 001 / LA RÉUNION</div>
-          <h1 className="font-author text-[clamp(4.8rem,12vw,10rem)] leading-[.78] tracking-[-0.08em] text-[#F3ECE0]">DÉCOUVRE.<br /><span className="italic text-[#F77F4A]">CRÉE.</span><br />COLLECTIONNE<span className="text-[#C8336A]">.</span></h1>
+          <h1 className="w-full max-w-full font-author leading-[1.02] tracking-[-0.03em]" style={{ fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)' }}>
+            {heroLines.map((line, i) => (
+              <span key={line.text} className={`kt-line ${mounted ? 'mounted' : ''} block break-words ${line.className}`} style={{ animationDelay: `${0.15 + i * 0.14}s` }}>{line.text}</span>
+            ))}
+          </h1>
           <p className="mt-9 max-w-sm font-montserrat text-sm leading-6 text-white/60">Le sticker comme objet artistique. Des éditions limitées, imaginées par des artistes, fabriquées en France.</p>
-          <div className="mt-9 flex flex-wrap gap-3"><a href="#shop" className="group flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C] transition-transform hover:-translate-y-1">EXPLORER LES STICKERS <ArrowUpRight size={16} /></a><a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-colors hover:border-[#F77F4A] hover:text-[#F77F4A]">CRÉE TON STICKER</a></div>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <a href="#shop" className="group flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C] transition-[filter,transform] duration-200 ease-out hover:-translate-y-1 hover:brightness-110">EXPLORER LES STICKERS <ArrowUpRight size={16} className="transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:-translate-y-1" /></a>
+            <a href="#sticker-lab" className="group flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-colors duration-200 ease-out hover:border-[#F77F4A] hover:bg-white/[.06] hover:text-[#F77F4A]">CRÉE TON STICKER</a>
+          </div>
         </div>
-        <div className="relative mx-auto aspect-square w-full max-w-[660px] animate-scale-in">
-          <div className="absolute inset-[12%] overflow-hidden rounded-[48%_52%_45%_55%] bg-[#171717]"><Image src="/kreatik/reunion-collage.png" alt="Collection 974, stickers inspirés de La Réunion" fill priority className="object-cover" sizes="(max-width: 1024px) 90vw, 55vw" /></div>
-          {stickers.map((sticker, i) => <div key={sticker.label} className={`absolute ${sticker.position} ${sticker.rotate} ${sticker.scale} animate-float-${i % 2 ? 'slow' : ''} z-10 aspect-square w-24 drop-shadow-[8px_12px_10px_rgba(0,0,0,.45)] md:w-32`}><Image src={sticker.src} alt={sticker.label} fill className="object-contain" sizes="150px" /></div>)}
+        <div className="relative mx-auto aspect-square w-full max-w-[660px]">
+          <div
+            className="animate-scale-in absolute inset-[12%] overflow-hidden rounded-[48%_52%_45%_55%] bg-[#171717]"
+            style={{ transform: reducedMotion ? undefined : `translate(${pointer.x * 6}px, ${pointer.y * 6}px)`, transition: 'transform 0.2s ease-out' }}
+          >
+            <Image src="/kreatik/reunion-collage.png" alt="Collection 974, stickers inspirés de La Réunion" fill priority className="object-cover" sizes="(max-width: 1024px) 90vw, 55vw" />
+          </div>
+          {stickers.map((sticker, i) => (
+            <div
+              key={sticker.label}
+              className={`absolute ${sticker.position}`}
+              style={{ transform: reducedMotion ? undefined : `translate(${pointer.x * -18 * sticker.depth}px, ${pointer.y * -18 * sticker.depth}px)`, transition: 'transform 0.25s ease-out' }}
+            >
+              <div className={`kt-pop-in ${mounted ? 'mounted' : ''}`} style={{ animationDelay: `${0.5 + i * 0.08}s` }}>
+                <div
+                  className={`kt-sticker-float kt-sticker-hover ${sticker.scale} z-10 aspect-square w-24 drop-shadow-[8px_12px_10px_rgba(0,0,0,.45)] md:w-32`}
+                  style={{ ['--dur' as string]: `${sticker.dur}s`, ['--delay' as string]: `${sticker.delay}s`, ['--float-y' as string]: `${sticker.floatY}px`, ['--float-rot' as string]: sticker.rotate, transform: `rotate(${sticker.rotate})`, position: 'relative' }}
+                >
+                  <Image src={sticker.src} alt={sticker.label} fill className="object-contain" sizes="150px" />
+                </div>
+              </div>
+            </div>
+          ))}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/50">FABRIQUÉ EN FRANCE / 974</div>
         </div>
       </div>
