@@ -20,14 +20,16 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-6deg', position: 'left-[0%] top-[6%]', scale: 'scale-100', dur: 6.5, delay: 0, floatY: -14, floatRot: 5, depth: 1.3 },
-  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', rotate: '5deg', position: 'left-[30%] top-[-4%]', scale: 'scale-90', dur: 7.0, delay: 0.9, floatY: -12, floatRot: -4, depth: 1.15 },
-  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: '8deg', position: 'right-[2%] top-[2%]', scale: 'scale-110', dur: 7.2, delay: 0.6, floatY: -18, floatRot: -6, depth: 1.6 },
-  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: '6deg', position: 'left-[4%] bottom-[4%]', scale: 'scale-110', dur: 5.8, delay: 1.1, floatY: -12, floatRot: 6, depth: 1.2 },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-8deg', position: 'left-[36%] bottom-[-6%]', scale: 'scale-90', dur: 6.9, delay: 0.3, floatY: -16, floatRot: -5, depth: 1.45 },
-  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', rotate: '-5deg', position: 'right-[0%] bottom-[2%]', scale: 'scale-95', dur: 6.2, delay: 1.4, floatY: -13, floatRot: 5, depth: 1.35 },
-  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', rotate: '4deg', position: 'right-[-4%] top-[38%]', scale: 'scale-90', dur: 7.6, delay: 0.5, floatY: -15, floatRot: -5, depth: 1.5 },
+  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', rotate: '-6deg', position: 'left-[3%] top-[1%]', size: 'w-16 md:w-20', dur: 6.2, delay: 1.4, floatY: -10, floatRot: 4, depth: 1.1 },
+  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', rotate: '4deg', position: 'left-[27%] top-[-3%]', size: 'w-20 md:w-28', dur: 7.0, delay: 0.9, floatY: -11, floatRot: -4, depth: 1.0 },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: '7deg', position: 'right-[5%] top-[4%]', size: 'w-24 md:w-32', dur: 7.2, delay: 0.6, floatY: -16, floatRot: -5, depth: 1.35 },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-5deg', position: 'left-[4%] top-[46%]', size: 'w-28 md:w-40', dur: 6.5, delay: 0, floatY: -14, floatRot: 5, depth: 1.25 },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-4deg', position: 'right-[10%] top-[48%]', size: 'w-24 md:w-32', dur: 6.9, delay: 0.3, floatY: -13, floatRot: -4, depth: 1.15 },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: '6deg', position: 'left-[14%] bottom-[2%]', size: 'w-24 md:w-32', dur: 5.8, delay: 1.1, floatY: -12, floatRot: 5, depth: 1.2 },
+  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', rotate: '5deg', position: 'right-[2%] bottom-[-2%]', size: 'w-28 md:w-36', dur: 7.6, delay: 0.5, floatY: -15, floatRot: -4, depth: 1.3 },
 ]
+
+const heroLogo = { src: '/kreatik/logo-kreatik.png', position: 'left-1/2 top-[30%] -translate-x-1/2', size: 'w-40 md:w-56', dur: 8.5, delay: 0.2, floatY: -8 }
 
 const heroLines = [
   { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
@@ -117,13 +119,8 @@ export function HeroDrop() {
             <a href="#sticker-lab" className="group flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-colors duration-200 ease-out hover:border-[#F77F4A] hover:bg-white/[.06] hover:text-[#F77F4A]">CRÉE TON STICKER</a>
           </div>
         </div>
-        <div className="relative mx-auto aspect-square w-full max-w-[660px]">
-          <div
-            className="animate-scale-in absolute inset-[12%] overflow-hidden rounded-[48%_52%_45%_55%] bg-[#171717]"
-            style={{ transform: reducedMotion ? undefined : `translate(${pointer.x * 6}px, ${pointer.y * 6}px)`, transition: 'transform 0.2s ease-out' }}
-          >
-            <Image src="/kreatik/reunion-collage.png" alt="Collection 974, stickers inspirés de La Réunion" fill priority className="object-cover" sizes="(max-width: 1024px) 90vw, 55vw" />
-          </div>
+        <div className="relative mx-auto aspect-[6/5] w-full max-w-[680px]">
+          <Image src={heroLogo.src} alt="KREATIK" width={480} height={480} priority className={`absolute ${heroLogo.position} ${heroLogo.size} z-10 h-auto drop-shadow-[0_18px_30px_rgba(0,0,0,.5)]`} style={{ transform: reducedMotion ? undefined : `translate(${pointer.x * -10}px, ${pointer.y * -10}px)` }} />
           {stickers.map((sticker, i) => (
             <div
               key={sticker.label}
@@ -132,15 +129,15 @@ export function HeroDrop() {
             >
               <div className={`kt-pop-in ${mounted ? 'mounted' : ''}`} style={{ animationDelay: `${0.5 + i * 0.08}s` }}>
                 <div
-                  className={`kt-sticker-float kt-sticker-hover ${sticker.scale} z-10 aspect-square w-24 drop-shadow-[8px_12px_10px_rgba(0,0,0,.45)] md:w-32`}
-                  style={{ ['--dur' as string]: `${sticker.dur}s`, ['--delay' as string]: `${sticker.delay}s`, ['--float-y' as string]: `${sticker.floatY}px`, ['--float-rot' as string]: sticker.rotate, transform: `rotate(${sticker.rotate})`, position: 'relative' }}
+                  className={`kt-sticker-float ${sticker.size} relative aspect-square drop-shadow-[6px_10px_10px_rgba(0,0,0,.4)]`}
+                  style={{ ['--dur' as string]: `${sticker.dur}s`, ['--delay' as string]: `${sticker.delay}s`, ['--float-y' as string]: `${sticker.floatY}px`, ['--float-rot' as string]: sticker.rotate, transform: `rotate(${sticker.rotate})` }}
                 >
-                  <Image src={sticker.src} alt={sticker.label} fill className="object-contain" sizes="150px" />
+                  <Image src={sticker.src} alt={sticker.label} fill className="object-contain" sizes="200px" />
                 </div>
               </div>
             </div>
           ))}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/50">FABRIQUÉ EN FRANCE / 974</div>
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/40">FABRIQUÉ EN FRANCE / 974</div>
         </div>
       </div>
       <div className="absolute bottom-7 left-5 font-montserrat text-[9px] tracking-[0.18em] text-white/30 md:left-10">DÉFILE POUR EXPLORER ↓</div>
