@@ -4,8 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, Heart, Menu, Search, ShoppingBag, Sparkles, X } from 'lucide-react'
 import Lenis from 'lenis'
-import { useEffect, useRef, useState } from 'react'
-import type { MouseEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { getActiveArtists, getActiveStickers } from '@/lib/kreatik-data'
 
 function SmoothScroll() {
@@ -20,16 +19,16 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', rotate: '-6deg', position: 'left-[3%] top-[1%]', size: 'w-16 md:w-20', dur: 6.2, delay: 1.4, floatY: -10, floatRot: 4, depth: 1.1 },
-  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', rotate: '4deg', position: 'left-[27%] top-[-3%]', size: 'w-20 md:w-28', dur: 7.0, delay: 0.9, floatY: -11, floatRot: -4, depth: 1.0 },
-  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: '7deg', position: 'right-[5%] top-[4%]', size: 'w-24 md:w-32', dur: 7.2, delay: 0.6, floatY: -16, floatRot: -5, depth: 1.35 },
-  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-5deg', position: 'left-[4%] top-[46%]', size: 'w-28 md:w-40', dur: 6.5, delay: 0, floatY: -14, floatRot: 5, depth: 1.25 },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-4deg', position: 'right-[10%] top-[48%]', size: 'w-24 md:w-32', dur: 6.9, delay: 0.3, floatY: -13, floatRot: -4, depth: 1.15 },
-  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: '6deg', position: 'left-[14%] bottom-[2%]', size: 'w-24 md:w-32', dur: 5.8, delay: 1.1, floatY: -12, floatRot: 5, depth: 1.2 },
-  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', rotate: '5deg', position: 'right-[2%] bottom-[-2%]', size: 'w-28 md:w-36', dur: 7.6, delay: 0.5, floatY: -15, floatRot: -4, depth: 1.3 },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', w: 560, h: 700, rotate: '-8deg', x: '9%', y: '15%', width: 'w-24 md:w-32' },
+  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', w: 720, h: 900, rotate: '5deg', x: '38%', y: '9%', width: 'w-20 md:w-28' },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', w: 560, h: 700, rotate: '9deg', x: '86%', y: '17%', width: 'w-24 md:w-32' },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', w: 560, h: 700, rotate: '-6deg', x: '8%', y: '50%', width: 'w-28 md:w-36' },
+  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', w: 900, h: 900, rotate: '-5deg', x: '91%', y: '44%', width: 'w-20 md:w-28' },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', w: 560, h: 700, rotate: '7deg', x: '6%', y: '82%', width: 'w-24 md:w-32' },
+  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '65%', y: '78%', width: 'w-20 md:w-24' },
 ]
-
-const heroLogo = { src: '/kreatik/logo-kreatik.png', position: 'left-1/2 top-[30%] -translate-x-1/2', size: 'w-40 md:w-56', dur: 8.5, delay: 0.2, floatY: -8 }
+const heroLogo = { src: '/kreatik/logo-kreatik.png', x: '84%', y: '86%', width: 'w-28 md:w-36' }
+const heroPackaging = { src: '/kreatik/packaging/boite.jpg', x: '50%', y: '45%', width: 'w-56 md:w-72' }
 
 const heroLines = [
   { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
@@ -73,70 +72,42 @@ export function SiteHeader() {
 }
 
 export function HeroDrop() {
-  const [mounted, setMounted] = useState(false)
-  const [pointer, setPointer] = useState({ x: 0, y: 0 })
-  const [reducedMotion, setReducedMotion] = useState(false)
-  const stageRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 80)
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReducedMotion(mq.matches)
-    const onMq = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
-    mq.addEventListener?.('change', onMq)
-    return () => { clearTimeout(t); mq.removeEventListener?.('change', onMq) }
-  }, [])
-
-  const handlePointerMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (reducedMotion || !stageRef.current) return
-    const rect = stageRef.current.getBoundingClientRect()
-    setPointer({ x: (e.clientX - rect.left) / rect.width - 0.5, y: (e.clientY - rect.top) / rect.height - 0.5 })
-  }
-  const handlePointerLeave = () => setPointer({ x: 0, y: 0 })
-
   return (
     <section id="top" className="relative min-h-[720px] overflow-hidden bg-[#12141C] px-5 py-20 md:min-h-[780px] md:px-10 md:py-24">
       <div
-        className="kt-grid-drift pointer-events-none absolute inset-0 opacity-20"
+        className="pointer-events-none absolute inset-0 opacity-20"
         style={{
           backgroundImage: 'linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)',
           backgroundSize: '80px 80px',
-          transform: reducedMotion ? undefined : `translate(${pointer.x * -8}px, ${pointer.y * -8}px)`,
         }}
       />
       <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2" style={{ background: 'radial-gradient(60% 60% at 70% 40%, rgba(247,127,74,.10) 0%, transparent 70%)' }} />
-      <div ref={stageRef} onMouseMove={handlePointerMove} onMouseLeave={handlePointerLeave} className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
+      <div className="relative z-10 mx-auto grid max-w-[1440px] items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
         <div className="max-w-xl">
           <div className="mb-6 flex items-center gap-3 font-montserrat text-[10px] font-bold tracking-[0.22em] text-[#F77F4A]"><span className="h-px w-10 bg-[#F77F4A]" /> DROP 001 / LA RÉUNION</div>
           <h1 className="w-full max-w-full font-author leading-[1.02] tracking-[-0.03em]" style={{ fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)' }}>
-            {heroLines.map((line, i) => (
-              <span key={line.text} className={`kt-line ${mounted ? 'mounted' : ''} block break-words ${line.className}`} style={{ animationDelay: `${0.15 + i * 0.14}s` }}>{line.text}</span>
+            {heroLines.map((line) => (
+              <span key={line.text} className={`block break-words ${line.className}`}>{line.text}</span>
             ))}
           </h1>
           <p className="mt-9 max-w-sm font-montserrat text-sm leading-6 text-white/60">Le sticker comme objet artistique. Des éditions limitées, imaginées par des artistes, fabriquées en France.</p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <a href="#shop" className="group flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C] transition-[filter,transform] duration-200 ease-out hover:-translate-y-1 hover:brightness-110">EXPLORER LES STICKERS <ArrowUpRight size={16} className="transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:-translate-y-1" /></a>
-            <a href="#sticker-lab" className="group flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-colors duration-200 ease-out hover:border-[#F77F4A] hover:bg-white/[.06] hover:text-[#F77F4A]">CRÉE TON STICKER</a>
+            <a href="#shop" className="flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C]">EXPLORER LES STICKERS <ArrowUpRight size={16} /></a>
+            <a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">CRÉE TON STICKER</a>
           </div>
         </div>
-        <div className="relative mx-auto aspect-[6/5] w-full max-w-[680px]">
-          <Image src={heroLogo.src} alt="KREATIK" width={480} height={480} priority className={`absolute ${heroLogo.position} ${heroLogo.size} z-10 h-auto drop-shadow-[0_18px_30px_rgba(0,0,0,.5)]`} style={{ transform: reducedMotion ? undefined : `translate(${pointer.x * -10}px, ${pointer.y * -10}px)` }} />
-          {stickers.map((sticker, i) => (
-            <div
-              key={sticker.label}
-              className={`absolute ${sticker.position}`}
-              style={{ transform: reducedMotion ? undefined : `translate(${pointer.x * -18 * sticker.depth}px, ${pointer.y * -18 * sticker.depth}px)`, transition: 'transform 0.25s ease-out' }}
-            >
-              <div className={`kt-pop-in ${mounted ? 'mounted' : ''}`} style={{ animationDelay: `${0.5 + i * 0.08}s` }}>
-                <div
-                  className={`kt-sticker-float ${sticker.size} relative aspect-square drop-shadow-[6px_10px_10px_rgba(0,0,0,.4)]`}
-                  style={{ ['--dur' as string]: `${sticker.dur}s`, ['--delay' as string]: `${sticker.delay}s`, ['--float-y' as string]: `${sticker.floatY}px`, ['--float-rot' as string]: sticker.rotate, transform: `rotate(${sticker.rotate})` }}
-                >
-                  <Image src={sticker.src} alt={sticker.label} fill className="object-contain" sizes="200px" />
-                </div>
-              </div>
+        <div className="relative mx-auto aspect-[6/5] w-full max-w-[720px]">
+          <div className="absolute z-10 overflow-hidden rounded-md shadow-[0_30px_60px_-20px_rgba(0,0,0,.7)]" style={{ left: heroPackaging.x, top: heroPackaging.y, transform: 'translate(-50%, -50%)' }}>
+            <Image src={heroPackaging.src} alt="Boîte Kreatik" width={1400} height={1080} className={`${heroPackaging.width} h-auto`} priority />
+          </div>
+          {stickers.map((sticker) => (
+            <div key={sticker.label} className="absolute drop-shadow-[6px_10px_10px_rgba(0,0,0,.4)]" style={{ left: sticker.x, top: sticker.y, transform: `translate(-50%, -50%) rotate(${sticker.rotate})` }}>
+              <Image src={sticker.src} alt={sticker.label} width={sticker.w} height={sticker.h} className={`${sticker.width} h-auto`} />
             </div>
           ))}
+          <div className="absolute drop-shadow-[0_10px_20px_rgba(0,0,0,.5)]" style={{ left: heroLogo.x, top: heroLogo.y, transform: 'translate(-50%, -50%)' }}>
+            <Image src={heroLogo.src} alt="KREATIK" width={900} height={900} className={`${heroLogo.width} h-auto`} />
+          </div>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 font-montserrat text-[9px] font-bold tracking-[0.18em] text-white/40">FABRIQUÉ EN FRANCE / 974</div>
         </div>
       </div>
