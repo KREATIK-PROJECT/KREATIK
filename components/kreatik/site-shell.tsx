@@ -20,10 +20,13 @@ function SmoothScroll() {
 }
 
 const stickers = [
-  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-6deg', position: 'left-[8%] top-[10%]', scale: 'scale-100', dur: 6.5, delay: 0, floatY: -14, floatRot: 5, depth: 1.3 },
-  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: '6deg', position: 'right-[8%] top-[10%]', scale: 'scale-125', dur: 7.2, delay: 0.6, floatY: -18, floatRot: -6, depth: 1.6 },
-  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: '6deg', position: 'left-[8%] bottom-[10%]', scale: 'scale-110', dur: 5.8, delay: 1.1, floatY: -12, floatRot: 6, depth: 1.2 },
-  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-6deg', position: 'right-[8%] bottom-[10%]', scale: 'scale-95', dur: 6.9, delay: 0.3, floatY: -16, floatRot: -5, depth: 1.45 },
+  { label: 'Kine La Rak', src: '/kreatik/stickers/kine-la-rak.png', rotate: '-6deg', position: 'left-[0%] top-[6%]', scale: 'scale-100', dur: 6.5, delay: 0, floatY: -14, floatRot: 5, depth: 1.3 },
+  { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', rotate: '5deg', position: 'left-[30%] top-[-4%]', scale: 'scale-90', dur: 7.0, delay: 0.9, floatY: -12, floatRot: -4, depth: 1.15 },
+  { label: 'Cok Lacour', src: '/kreatik/stickers/cok-lacour.png', rotate: '8deg', position: 'right-[2%] top-[2%]', scale: 'scale-110', dur: 7.2, delay: 0.6, floatY: -18, floatRot: -6, depth: 1.6 },
+  { label: 'Chien Denis Crew', src: '/kreatik/stickers/chien-denis-crew.png', rotate: '6deg', position: 'left-[4%] bottom-[4%]', scale: 'scale-110', dur: 5.8, delay: 1.1, floatY: -12, floatRot: 6, depth: 1.2 },
+  { label: '974 Tag', src: '/kreatik/stickers/974-tag-beige.png', rotate: '-8deg', position: 'left-[36%] bottom-[-6%]', scale: 'scale-90', dur: 6.9, delay: 0.3, floatY: -16, floatRot: -5, depth: 1.45 },
+  { label: '974 Holo', src: '/kreatik/stickers/974-tag-pale.png', rotate: '-5deg', position: 'right-[0%] bottom-[2%]', scale: 'scale-95', dur: 6.2, delay: 1.4, floatY: -13, floatRot: 5, depth: 1.35 },
+  { label: 'Kafrine do Fé', src: '/kreatik/stickers/kafrine-do-fe.png', rotate: '4deg', position: 'right-[-4%] top-[38%]', scale: 'scale-90', dur: 7.6, delay: 0.5, floatY: -15, floatRot: -5, depth: 1.5 },
 ]
 
 const heroLines = [

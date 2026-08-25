@@ -93,6 +93,33 @@ export const stickers: StickerItem[] = [
     finish: 'Matte',
     tag: 'Collection 974',
   },
+  {
+    slug: '974-tag-gradient',
+    name: '974 Flamme',
+    artistSlug: 'kreatik-studio',
+    image: '/kreatik/stickers/974-tag-gradient.png',
+    price: '9,99 €',
+    finish: 'Glossy',
+    tag: 'Collection 974',
+  },
+  {
+    slug: '974-tag-holo',
+    name: '974 Holo',
+    artistSlug: 'kreatik-studio',
+    image: '/kreatik/stickers/974-tag-pale.png',
+    price: '11,99 €',
+    finish: 'Holographic',
+    tag: 'Holographique',
+  },
+  {
+    slug: 'kafrine-do-fe',
+    name: 'Kafrine do Fé',
+    artistSlug: 'kreatik-studio',
+    image: '/kreatik/stickers/kafrine-do-fe.png',
+    price: '14,99 €',
+    finish: 'Glossy',
+    tag: 'Édition limitée',
+  },
 ]
 
 export function getActiveArtists() {
