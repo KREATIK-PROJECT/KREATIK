@@ -93,43 +93,41 @@
 @layer base {
   @font-face {
     font-family: 'Author';
-    src: url('/fonts/Author-Bold.ttf') format('truetype');
-    font-weight: 700;
+    src: url('/fonts/Author-Variable.ttf') format('truetype');
+    font-weight: 200 700;
     font-style: normal;
+    font-display: swap;
   }
-  
+
   @font-face {
     font-family: 'Author';
-    src: url('/fonts/Author-Italic.ttf') format('truetype');
-    font-weight: 400;
+    src: url('/fonts/Author-VariableItalic.ttf') format('truetype');
+    font-weight: 200 700;
     font-style: italic;
+    font-display: swap;
   }
-  
+
   @font-face {
     font-family: 'Montserrat';
-    src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
-    font-weight: 400;
+    src: url('/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
     font-style: normal;
+    font-display: swap;
   }
-  
+
   @font-face {
     font-family: 'Montserrat';
-    src: url('/fonts/Montserrat-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('/fonts/Montserrat-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
+    src: url('/fonts/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
   }
 }
 
 @layer components {
   .font-author {
     @apply font-[family-name:var(--font-author)];
+    font-weight: 700;
   }
   
   .font-montserrat {
