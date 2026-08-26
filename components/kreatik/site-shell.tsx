@@ -44,9 +44,8 @@ const NAV_ITEMS = [
   { num: '01', label: 'BOUTIQUE', href: '/boutique' },
   { num: '02', label: 'ARTISTES', href: '/#artists' },
   { num: '03', label: 'COLLECTIONS', href: '/#collections' },
-  { num: '04', label: 'ATELIER', href: '/atelier' },
-  { num: '05', label: 'DROPS', href: '/drops' },
-  { num: '06', label: 'FONDATEUR', href: '/#fondateur' },
+  { num: '04', label: 'DROPS', href: '/drops' },
+  { num: '05', label: 'FONDATEUR', href: '/#fondateur' },
 ]
 
 function PremiumNav() {
@@ -145,7 +144,6 @@ export function SiteHeader() {
         <Link href="/boutique" onClick={() => setMenuOpen(false)}>BOUTIQUE</Link>
         <a href="/#artists" onClick={() => setMenuOpen(false)}>ARTISTES</a>
         <a href="/#collections" onClick={() => setMenuOpen(false)}>COLLECTIONS</a>
-        <Link href="/atelier" onClick={() => setMenuOpen(false)}>ATELIER</Link>
         <Link href="/drops" onClick={() => setMenuOpen(false)}>DROPS</Link>
         <a href="/#fondateur" onClick={() => setMenuOpen(false)}>FONDATEUR</a>
       </nav>}
@@ -176,7 +174,6 @@ export function HeroDrop({ visualRef }: { visualRef?: React.RefObject<HTMLDivEle
           <p className="mt-9 max-w-sm font-montserrat text-sm leading-6 text-white/60">Le sticker comme objet artistique. Des éditions limitées, imaginées par des artistes, fabriquées en France.</p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Magnetic className="inline-block"><a href="#shop" className="flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C]">EXPLORER LES STICKERS <ArrowUpRight size={16} /></a></Magnetic>
-            <Magnetic className="inline-block"><Link href="/atelier" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">CRÉE TON STICKER</Link></Magnetic>
           </div>
         </div>
         <div ref={visualRef} className="relative mx-auto aspect-square w-full max-w-[980px]">
@@ -195,8 +192,9 @@ export function HeroDrop({ visualRef }: { visualRef?: React.RefObject<HTMLDivEle
   )
 }
 
-export function IntroStatement() {
-  return <section className="bg-[#F3ECE0] px-5 py-24 text-[#12141C] md:px-10 md:py-36"><Reveal className="mx-auto grid max-w-[1200px] gap-12 md:grid-cols-[.7fr_1.3fr] md:items-end"><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-[#C8336A]">01 / LE MANIFESTE</p><div><h2 className="font-author text-5xl leading-[.92] tracking-[-0.06em] md:text-8xl">LE DESIGN<br /><span className="italic text-[#C8336A]">QUI COLLE.</span></h2><p className="mt-8 max-w-xl font-montserrat text-sm leading-7 text-black/60">KREATIK est une galerie en mouvement. Une plateforme où l&apos;art sort des murs, se colle, se collectionne et voyage. Chaque drop célèbre un regard, une histoire, un territoire.</p></div></Reveal></section>
+export function BoutiqueSection() {
+  const items = getBoutiqueStickers().slice(0, 4)
+  return <section className="bg-[#F3ECE0] px-5 py-24 text-[#12141C] md:px-10 md:py-36"><div className="mx-auto max-w-[1440px]"><Reveal className="grid gap-12 md:grid-cols-[.7fr_1.3fr] md:items-end"><p className="font-montserrat text-[10px] font-bold tracking-[0.2em] text-[#C8336A]">01 / BOUTIQUE</p><div><h2 className="font-author text-5xl leading-[.92] tracking-[-0.06em] md:text-8xl">LE CATALOGUE<br /><span className="italic text-[#C8336A]">PERMANENT.</span></h2><p className="mt-8 max-w-xl font-montserrat text-sm leading-7 text-black/60">Les pièces disponibles en continu, sans limite de temps ni de stock — le fond de catalogue Kreatik, à côté des drops en édition limitée.</p></div></Reveal>{items.length > 0 ? (<><div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">{items.map((item, i) => <Reveal key={item.slug} delay={i * 90}><StickerVisual slug={item.slug} name={item.name} image={item.image} price={item.price} sticker={item} /></Reveal>)}</div><Reveal className="mt-10"><Link href="/boutique" className="inline-flex items-center gap-2 font-montserrat text-[11px] font-bold tracking-[0.12em] text-black/70 transition-colors hover:text-[#C8336A]">VOIR TOUTE LA BOUTIQUE <ArrowUpRight size={14} /></Link></Reveal></>) : (<Reveal delay={90} className="mt-14 border border-black/10 bg-white/50 px-8 py-14 text-center"><p className="font-author text-2xl italic text-black/70">Le catalogue permanent arrive bientôt.</p><p className="mx-auto mt-3 max-w-md font-montserrat text-sm leading-6 text-black/55">Pour l&apos;instant, toutes nos créations font partie du Drop 001 — une édition limitée.</p><Link href="/drops" className="mt-7 inline-flex items-center gap-2 bg-[#12141C] px-5 py-3.5 font-montserrat text-[11px] font-bold tracking-[0.14em] text-[#F3ECE0]">VOIR LE DROP EN COURS <ArrowUpRight size={14} /></Link></Reveal>)}</div></section>
 }
 
 export const sampleStickers = getActiveStickers()
@@ -258,7 +256,7 @@ export function PackagingSection() {
 }
 
 export function Footer() {
-  return <footer className="bg-[#12141C] px-5 py-12 text-[#F3ECE0] md:px-10"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-10 border-b border-white/15 pb-12 md:flex-row"><div><span className="font-author text-3xl not-italic tracking-[-0.02em] text-[#F3ECE0]">KREATIK<span className="text-[#F77F4A]">.</span></span><p className="mt-4 max-w-xs font-montserrat text-xs leading-5 text-white/50">Le sticker comme objet artistique.<br />Fait avec cœur, depuis La Réunion.</p><div className="mt-6 flex items-center gap-4 text-white/60"><a href="https://instagram.com/kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="Instagram">Instagram</a><a href="https://tiktok.com/@kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="TikTok">TikTok</a><a href="https://youtube.com/@kreatikofficiel" className="transition-colors hover:text-[#F77F4A]" aria-label="YouTube">YouTube</a></div></div><div className="grid grid-cols-2 gap-x-16 gap-y-4 font-montserrat text-[10px] font-bold tracking-[0.14em] text-white/60"><Link href="/boutique">BOUTIQUE</Link><a href="/#artists">ARTISTES</a><a href="/#collections">COLLECTIONS</a><Link href="/atelier">ATELIER</Link><Link href="/drops">DROPS</Link><a href="/#fondateur">À PROPOS</a></div><div className="font-montserrat text-xs text-white/60"><p className="text-[10px] font-bold tracking-[0.18em] text-white/40">CONTACT</p><a href="mailto:contact.kreatik@protonmail.com" className="mt-3 block transition-colors hover:text-[#F77F4A]">contact.kreatik@protonmail.com</a><p className="mt-5 text-[10px] font-bold tracking-[0.18em] text-white/40">DEVIS PRO / SUR-MESURE</p><a href="mailto:contact.kreatik@protonmail.com?subject=Devis%20sur-mesure" className="mt-3 inline-flex items-center gap-2 border border-white/25 px-4 py-3 text-[10px] font-bold tracking-[0.14em] transition-colors hover:border-[#F77F4A] hover:text-[#F77F4A]">DEMANDER UN DEVIS <ArrowUpRight size={13} /></a></div></div><div className="flex flex-col justify-between gap-3 pt-6 font-montserrat text-[9px] tracking-[0.12em] text-white/35 md:flex-row"><span>© 2024 KREATIK STUDIO / FABRIQUÉ EN FRANCE</span><span>EMBALLAGE FSC / VINYLE RECYCLABLE / ENCRES VÉGÉTALES</span></div></div></footer>
+  return <footer className="bg-[#12141C] px-5 py-12 text-[#F3ECE0] md:px-10"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-10 border-b border-white/15 pb-12 md:flex-row"><div><span className="font-author text-3xl not-italic tracking-[-0.02em] text-[#F3ECE0]">KREATIK<span className="text-[#F77F4A]">.</span></span><p className="mt-4 max-w-xs font-montserrat text-xs leading-5 text-white/50">Le sticker comme objet artistique.<br />Fait avec cœur, depuis La Réunion.</p><div className="mt-6 flex items-center gap-4 text-white/60"><a href="https://instagram.com/kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="Instagram">Instagram</a><a href="https://tiktok.com/@kreatik.officiel" className="transition-colors hover:text-[#F77F4A]" aria-label="TikTok">TikTok</a><a href="https://youtube.com/@kreatikofficiel" className="transition-colors hover:text-[#F77F4A]" aria-label="YouTube">YouTube</a></div></div><div className="grid grid-cols-2 gap-x-16 gap-y-4 font-montserrat text-[10px] font-bold tracking-[0.14em] text-white/60"><Link href="/boutique">BOUTIQUE</Link><a href="/#artists">ARTISTES</a><a href="/#collections">COLLECTIONS</a><Link href="/drops">DROPS</Link><a href="/#fondateur">À PROPOS</a></div><div className="font-montserrat text-xs text-white/60"><p className="text-[10px] font-bold tracking-[0.18em] text-white/40">CONTACT</p><a href="mailto:contact.kreatik@protonmail.com" className="mt-3 block transition-colors hover:text-[#F77F4A]">contact.kreatik@protonmail.com</a><p className="mt-5 text-[10px] font-bold tracking-[0.18em] text-white/40">DEVIS PRO / SUR-MESURE</p><a href="mailto:contact.kreatik@protonmail.com?subject=Devis%20sur-mesure" className="mt-3 inline-flex items-center gap-2 border border-white/25 px-4 py-3 text-[10px] font-bold tracking-[0.14em] transition-colors hover:border-[#F77F4A] hover:text-[#F77F4A]">DEMANDER UN DEVIS <ArrowUpRight size={13} /></a></div></div><div className="flex flex-col justify-between gap-3 pt-6 font-montserrat text-[9px] tracking-[0.12em] text-white/35 md:flex-row"><span>© 2024 KREATIK STUDIO / FABRIQUÉ EN FRANCE</span><span>EMBALLAGE FSC / VINYLE RECYCLABLE / ENCRES VÉGÉTALES</span></div></div></footer>
 }
 
 export function KreatikHome() {
@@ -267,7 +265,7 @@ export function KreatikHome() {
     <div className="relative">
       <SmoothScroll />
       <SiteHeader />
-      <main><HeroDrop visualRef={heroVisualRef} /><IntroStatement /><TrendingSection /><ArtistSection /><CollectionSection /><DropBanner /><FounderSection /><ConvictionsSection /><PackagingSection /></main>
+      <main><HeroDrop visualRef={heroVisualRef} /><BoutiqueSection /><TrendingSection /><ArtistSection /><CollectionSection /><DropBanner /><FounderSection /><ConvictionsSection /><PackagingSection /></main>
       <Footer />
       <DraggableStickerLayer stickers={stickers} anchorRef={heroVisualRef} />
     </div>
