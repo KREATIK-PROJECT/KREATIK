@@ -4,6 +4,7 @@ import { ArrowLeft, Heart } from 'lucide-react'
 import { getActiveStickers, getSticker, getArtist, getStickersByArtist } from '@/lib/kreatik-data'
 import { SiteHeader, Footer, DropBadge } from '@/components/kreatik/site-shell'
 import { StickerCard3D } from '@/components/kreatik/sticker-3d'
+import { Magnetic } from '@/components/kreatik/magnetic'
 
 export function generateStaticParams() {
   return getActiveStickers().map((s) => ({ slug: s.slug }))
@@ -42,7 +43,7 @@ export default async function StickerPage({ params }: { params: Promise<{ slug: 
               </div>
 
               <div className="mt-7 flex gap-3">
-                <button className="flex flex-1 items-center justify-center gap-3 bg-[#12141C] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-transform hover:-translate-y-1">AJOUTER AU PANIER</button>
+                <Magnetic className="flex-1" strength={10}><button className="flex w-full items-center justify-center gap-3 bg-[#12141C] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0] transition-transform hover:-translate-y-1">AJOUTER AU PANIER</button></Magnetic>
                 <button className="flex h-[52px] w-[52px] items-center justify-center border border-black/15 transition-colors hover:border-[#C8336A] hover:text-[#C8336A]" aria-label="Ajouter aux favoris"><Heart size={18} /></button>
               </div>
               <p className="mt-4 font-montserrat text-[11px] text-black/45">Livraison sous 72h · Production française</p>

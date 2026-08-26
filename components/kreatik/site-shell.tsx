@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getActiveArtists, getActiveStickers, getBoutiqueStickers, getDropStickers, type StickerItem } from '@/lib/kreatik-data'
 import { DraggableStickerLayer } from './draggable-stickers'
 import { Reveal } from './reveal'
+import { Magnetic } from './magnetic'
 
 function SmoothScroll() {
   useEffect(() => {
@@ -158,8 +159,8 @@ export function HeroDrop({ visualRef }: { visualRef?: React.RefObject<HTMLDivEle
           </h1>
           <p className="mt-9 max-w-sm font-montserrat text-sm leading-6 text-white/60">Le sticker comme objet artistique. Des éditions limitées, imaginées par des artistes, fabriquées en France.</p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <a href="#shop" className="flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C]">EXPLORER LES STICKERS <ArrowUpRight size={16} /></a>
-            <a href="#sticker-lab" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">CRÉE TON STICKER</a>
+            <Magnetic className="inline-block"><a href="#shop" className="flex items-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C]">EXPLORER LES STICKERS <ArrowUpRight size={16} /></a></Magnetic>
+            <Magnetic className="inline-block"><Link href="/atelier" className="flex items-center gap-3 border border-white/30 px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#F3ECE0]">CRÉE TON STICKER</Link></Magnetic>
           </div>
         </div>
         <div ref={visualRef} className="relative mx-auto aspect-square w-full max-w-[980px]">

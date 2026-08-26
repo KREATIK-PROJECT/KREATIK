@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { CustomCursor } from '@/components/kreatik/custom-cursor'
 
 export const metadata: Metadata = {
   title: 'KREATIK — Discover. Create. Collect.',
@@ -41,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="bg-[#12141C]">
       <body className="antialiased">
+        <CustomCursor />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

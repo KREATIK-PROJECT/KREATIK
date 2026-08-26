@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { Upload, Sparkles } from 'lucide-react'
 import { SiteHeader, Footer } from '@/components/kreatik/site-shell'
+import { Magnetic } from '@/components/kreatik/magnetic'
 
 const FINISHES = ['Mat', 'Brillant', 'Holographique', 'Transparent']
 const CONTOURS = ['Blanc', 'Noir', 'Aucun']
@@ -94,9 +95,11 @@ export default function AtelierPage() {
                   <p className="font-montserrat text-[10px] font-bold tracking-[0.16em] text-white/50">PRIX ESTIMÉ</p>
                   <p className="font-author text-4xl italic">{price} €</p>
                 </div>
-                <button disabled={!image} className="mt-5 flex w-full items-center justify-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C] transition-transform enabled:hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-40">
-                  AJOUTER AU PANIER <Sparkles size={15} />
-                </button>
+                <Magnetic className="mt-5 block w-full" strength={image ? 10 : 0}>
+                  <button disabled={!image} className="flex w-full items-center justify-center gap-3 bg-[#F77F4A] px-5 py-4 font-montserrat text-[10px] font-bold tracking-[0.16em] text-[#12141C] transition-transform enabled:hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-40">
+                    AJOUTER AU PANIER <Sparkles size={15} />
+                  </button>
+                </Magnetic>
                 {!image && <p className="mt-3 font-montserrat text-[11px] text-white/35">Importe une image pour continuer.</p>}
               </div>
             </div>

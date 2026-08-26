@@ -280,3 +280,11 @@ body {
   @apply bg-background text-foreground antialiased;
   font-family: 'Montserrat';
 }
+
+@media (hover: hover) and (pointer: fine) {
+  html.kt-cursor-none,
+  html.kt-cursor-none a,
+  html.kt-cursor-none button {
+    cursor: none;
+  }
+}
