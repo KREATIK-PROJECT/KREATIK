@@ -32,7 +32,7 @@ const stickers = [
   { label: '974 Flamme', src: '/kreatik/stickers/974-tag-gradient.png', w: 720, h: 900, rotate: '-4deg', x: '49%', y: '68%', width: 'w-24 md:w-28' },
 ]
 const heroLogo = { src: '/kreatik/logo-kreatik.png', x: '61%', y: '77%', width: 'w-28 md:w-36' }
-const heroPackaging = { src: '/kreatik/packaging/pochon-et-boite.png', w: 1524, h: 1006, x: '40%', y: '50%', width: 'w-96 md:w-[600px]' }
+const heroPackaging = { src: '/kreatik/packaging/pochon-et-boite.png', w: 1524, h: 1006, x: '50%', y: '50%', width: 'w-96 md:w-[600px]' }
 
 const heroLines = [
   { text: 'DÉCOUVRE.', className: 'text-[#F3ECE0]' },
@@ -104,12 +104,28 @@ function PremiumNav() {
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [revealed, setRevealed] = useState(false)
   const pathname = usePathname()
   const isActive = (href: string) => pathname === href
   const contextLabel = pathname === '/boutique' ? 'BOUTIQUE — Collection permanente' : pathname === '/drops' ? 'DROPS — Éditions limitées' : null
 
+  useEffect(() => {
+    const THRESHOLD = 24
+    const onScroll = () => setRevealed(window.scrollY > THRESHOLD)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <header className="relative z-50 border-b border-white/10 bg-[#12141C]/95 px-5 py-5 backdrop-blur-md md:px-10">
+    <header
+      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#12141C]/95 px-5 py-5 backdrop-blur-md transition-[opacity,transform] duration-[350ms] ease-out md:px-10"
+      style={{
+        opacity: revealed ? 1 : 0,
+        transform: revealed ? 'translateY(0)' : 'translateY(-12px)',
+        pointerEvents: revealed ? 'auto' : 'none',
+      }}
+    >
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-baseline" aria-label="Kreatik accueil">

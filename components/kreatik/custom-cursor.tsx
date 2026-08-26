@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
-  const ringRef = useRef<HTMLDivElement>(null)
-  const pos = useRef({ x: -100, y: -100 })
-  const ring = useRef({ x: -100, y: -100 })
-  const rafRef = useRef<number | null>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
+  const dotPos = useRef({ x: 0, y: 0 })
+  const glowPos = useRef({ x: 0, y: 0 })
+  const target = useRef({ x: 0, y: 0 })
+  const raf = useRef<number | null>(null)
   const [hoverBig, setHoverBig] = useState(false)
   const [ready, setReady] = useState(false)
 
@@ -19,25 +20,39 @@ export function CustomCursor() {
     setReady(true)
     document.documentElement.classList.add('kt-cursor-none')
 
-    const handleMove = (e: MouseEvent) => {
-      pos.current = { x: e.clientX, y: e.clientY }
-      if (dotRef.current) dotRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`
-      const target = e.target as HTMLElement | null
-      setHoverBig(!!target?.closest('a, button, [data-cursor-hover]'))
+    const onMove = (e: MouseEvent) => {
+      target.current.x = e.clientX
+      target.current.y = e.clientY
+      const el = e.target as HTMLElement | null
+      setHoverBig(!!el?.closest('a, button, [data-cursor-hover]'))
     }
-    window.addEventListener('mousemove', handleMove)
+    window.addEventListener('mousemove', onMove)
 
-    const tick = () => {
-      ring.current.x += (pos.current.x - ring.current.x) * 0.16
-      ring.current.y += (pos.current.y - ring.current.y) * 0.16
-      if (ringRef.current) ringRef.current.style.transform = `translate(${ring.current.x}px, ${ring.current.y}px) translate(-50%, -50%)`
-      rafRef.current = requestAnimationFrame(tick)
+    let lastTime = performance.now()
+    const loop = (now: number) => {
+      // Delta-time normalisé sur 60fps : le mouvement reste identique
+      // quel que soit le taux de rafraîchissement réel de l'écran.
+      const dt = Math.min((now - lastTime) / (1000 / 60), 3)
+      lastTime = now
+
+      const dotEase = 1 - Math.pow(1 - 0.25, dt)
+      const glowEase = 1 - Math.pow(1 - 0.09, dt)
+
+      dotPos.current.x += (target.current.x - dotPos.current.x) * dotEase
+      dotPos.current.y += (target.current.y - dotPos.current.y) * dotEase
+      glowPos.current.x += (target.current.x - glowPos.current.x) * glowEase
+      glowPos.current.y += (target.current.y - glowPos.current.y) * glowEase
+
+      if (dotRef.current) dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`
+      if (glowRef.current) glowRef.current.style.transform = `translate3d(${glowPos.current.x}px, ${glowPos.current.y}px, 0) translate(-50%, -50%)`
+
+      raf.current = requestAnimationFrame(loop)
     }
-    rafRef.current = requestAnimationFrame(tick)
+    raf.current = requestAnimationFrame(loop)
 
     return () => {
-      window.removeEventListener('mousemove', handleMove)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      window.removeEventListener('mousemove', onMove)
+      if (raf.current) cancelAnimationFrame(raf.current)
       document.documentElement.classList.remove('kt-cursor-none')
     }
   }, [])
@@ -45,18 +60,23 @@ export function CustomCursor() {
   if (!ready) return null
 
   return (
-    <div className="kt-custom-cursor-active">
-      <div ref={dotRef} className="pointer-events-none fixed left-0 top-0 z-[9999] h-[5px] w-[5px] rounded-full bg-[#F77F4A]" style={{ willChange: 'transform' }} />
+    <>
       <div
-        ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9998] rounded-full border transition-[width,height,border-color] duration-200 ease-out"
+        ref={glowRef}
+        className="pointer-events-none fixed left-0 top-0 z-[9998] rounded-full transition-[width,height] duration-200 ease-out"
         style={{
-          width: hoverBig ? 42 : 24,
-          height: hoverBig ? 42 : 24,
-          borderColor: hoverBig ? '#F77F4A' : 'rgba(243,236,224,.4)',
+          width: hoverBig ? 180 : 130,
+          height: hoverBig ? 180 : 130,
+          background: 'radial-gradient(circle, rgba(247,127,74,.4) 0%, rgba(247,127,74,.12) 45%, transparent 75%)',
+          filter: 'blur(16px)',
           willChange: 'transform',
         }}
       />
-    </div>
+      <div
+        ref={dotRef}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full bg-[#F3ECE0] transition-[width,height] duration-200 ease-out"
+        style={{ width: hoverBig ? 14 : 8, height: hoverBig ? 14 : 8, willChange: 'transform' }}
+      />
+    </>
   )
 }
